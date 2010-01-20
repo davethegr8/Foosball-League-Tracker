@@ -35,19 +35,21 @@
 
 			<div id="menubar">
 				<ul>
-					<li><a href="<?= $this->base ?>/admin/users/">Users</a></li>
-					<li><a href="<?= $this->base ?>/admin/accounts/">Accounts</a></li>
-					<li><a href="<?= $this->base ?>/admin/games/">Games</a></li>
-					<?php if(!$account["id"]) { ?>
-					<li><a href="<?= $this->base ?>/admin/posts/">Posts</a></li>
-					<?php } ?>
-					<li><a href="<?= $this->base ?>/admin/pages/">Pages</a></li>
+					<li><a href="<?= $this->base ?>/">Home</a></li>
 				</ul>
 			</div>
         </div>
 
 		<div id="sidebar">
-			
+			<ul class="nav">
+				<li><span><?php //echo $user["email"] ?></span></li>
+				<li><a href="<?= $this->base ?>/admin/users/">Users</a></li>
+				<li><a href="<?= $this->base ?>/admin/accounts/">Accounts</a></li>
+				<li><a href="<?= $this->base ?>/admin/games/">Games</a></li>
+				<li><a href="<?= $this->base ?>/admin/posts/">Posts</a></li>
+				<li><a href="<?= $this->base ?>/admin/pages/">Pages</a></li>
+				<li><a href="<?php echo $this->base ?>/admin/users/logout">Logout</a></li>
+			</ul>
 		</div>
         
         <div id="content">
