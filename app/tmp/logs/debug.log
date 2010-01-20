@@ -5,3 +5,6 @@
 2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant _cap_wrapper - assumed '_cap_wrapper' in [APP/views/helpers/typogrify.php, line 112]
 2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant typogrify - assumed 'typogrify' in [APP/views/helpers/typogrify.php, line 174]
 2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant _quote_wrapper - assumed '_quote_wrapper' in [APP/views/helpers/typogrify.php, line 174]
+2010-01-20 07:50:01 Notice: Notice (8): Undefined property: UsersController::$data in [CORE/cake/libs/view/view.php, line 270]
+2010-01-20 07:54:04 Notice: Notice (8): Undefined property: UsersController::$prefix in [APP/app_controller.php, line 8]
+2010-01-20 07:54:04 Notice: Notice (8): Undefined property: CakeErrorController::$prefix in [APP/app_controller.php, line 8]
