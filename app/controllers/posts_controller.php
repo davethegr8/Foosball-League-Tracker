@@ -1,43 +1,74 @@
 <?php
 
 class PostsController extends AppController {
-
+	
 	var $name = 'Posts';
 	
-	function index() {
-		$this->set('posts', $this->Post->find('all'));
+	function beforeFilter() {
+		$this->__validateAdminLogin();
 	}
 	
-	function view($id = NULL) {
-		$this->helpers[] = 'Typogrify';
-		
+	function index() {
+		$this->set('posts', $this->Post->findAll(NULL, NULL, 'created DESC'));
+	}
+	
+	function view($id) {
 		$this->Post->id = $id;
 		$this->set('post', $this->Post->read());
 	}
 	
-	function add() {
-		if (!empty($this->data)) {
-			if ($this->Post->save($this->data)) {
-				$this->flash('Your post has been saved.', '/posts');
+	function rss() {
+		$this->layout = 'rss';
+		
+		$this->set('posts', $this->Post->findAll(NULL, NULL, 'created DESC'));
+	}
+	
+	function admin_index() {
+		$data['posts'] = $this->Post->find('all');
+		
+		$this->set($data);
+	}
+	
+	function admin_add() {
+		
+		if(empty($this->data) == false) {
+			
+			$result = $this->Post->save($this->data);
+			if(empty($result) == false) {
+				$this->Session->setFlash('Post created.');
+				$this->redirect('/admin/posts');
+			}
+			else {
+				$this->Session->setFlash('Error.');
+			}
+		}
+		
+		if(!isset($this->data["Post"]["active"])) {
+			$this->data["Post"]["active"] = 0;
+		}
+	}
+	
+	function admin_edit($id) {
+		
+		if(empty($this->data)) {
+			$this->Post->id = $id;
+			$this->data = $this->Post->read();
+		}
+		else {
+			if(!isset($this->data["Post"]["active"])) {
+				$this->data["Post"]["active"] = 0;
+			}
+			
+			$result = $this->Post->save($this->data);
+			if(empty($result) == false) {
+				$this->Session->setFlash('Post saved.');
+				$this->redirect('/admin/posts');
+			}
+			else {
+				$this->Session->setFlash('Error.');
 			}
 		}
 	}
-	
-	function edit($id = NULL) {
-		$this->Post->id = $id;
-		
-		if (empty($this->data)) {
-			$this->data = $this->Post->read();
-		} elseif ($this->Post->save($this->data)) {
-			$this->flash('Your post has been updated.','/posts');
-		}
-	}
-	
-	function delete($id) {
-		$this->Post->del($id);
-		$this->flash('The post with id: '.$id.' has been deleted.', '/posts');
-	}
-   
 }
 
 ?>

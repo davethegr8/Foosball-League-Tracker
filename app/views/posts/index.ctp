@@ -1,31 +1,35 @@
-<!-- File: /app/views/posts/index.ctp -->
+<p class="intro">
+<span class="dropcap">T</span>his site was developed by the need to track the scores of 
+foosball games at work. It can be used to track a league of players of singles or doubles. 
+If you'd like to signup and start tracking your own league, all you have to do is
+<a href="<?= $this->base ?>/accounts/signup/">start here</a>.
+</p>
 
-<?php echo $html->link('Add '.Inflector::singularize($this->name),'/posts/add'); ?>
+<? foreach($posts as $post): ?>
 
-<h1>Blog posts</h1>
+<div class="blog">
+	<div class="blog_l">
+		<div class="blogdate">
+			<span class="daynum"><?= date("d", strtotime($post["Post"]["created"])) ?></span><br />
+			<span class="month"><?= date("M", strtotime($post["Post"]["created"])) ?></span><br />
+			<?= date("Y", strtotime($post["Post"]["created"])) ?>
+		</div>
+	</div>
+	
+	<div class="blog_r">
+		<div class="blog_interior">
+			<h2><?= $html->link($post["Post"]["title"], 'view/'.$post["Post"]["id"]) ?></h2>
+		
+			<? if($post["Post"]["subtitle"]) { ?>
+			<h5><?= $post["Post"]["subtitle"] ?></h5>
+			<? } ?>
+		
+			<div class="post_body">
+				<?= $post["Post"]["body"] ?>
+			</div>
+		</div>
+	</div>
+	
+</div>
 
-<table>
-	<tr>
-		<th>Id</th>
-		<th>Title</th>
-		<th>Actions</th>
-		<th>Created</th>
-		<th>Modified</th>
-	</tr>
-
-	<!-- Here is where we loop through our $posts array, printing out post info -->
-	<?php foreach ($posts as $post): ?>
-	<tr>
-		<td><?php echo $post['Post']['id']; ?></td>
-		<td>
-			<?php echo $html->link($post['Post']['title'], "/posts/view/".$post['Post']['id']); ?>
-		</td>
-		<td>
-			<?php echo $html->link('Edit', "/posts/edit/{$post['Post']['id']}")?>
-			<?php echo $html->link('Delete', "/posts/delete/{$post['Post']['id']}", null, 'Are you sure?' )?>
-		</td>
-		<td><?php echo $post['Post']['created']; ?></td>
-		<td><?php echo $post['Post']['modified']; ?></td>
-	</tr>
-	<?php endforeach; ?>	
-</table>
+<? endforeach; ?>

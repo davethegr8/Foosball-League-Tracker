@@ -78,24 +78,35 @@
  */
 class DATABASE_CONFIG {
 
-	var $default = array(
+	var $default = array();
+	
+	var $production = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => '',
+		'login' => '',
+		'password' => '',
+		'database' => 'foos',
+		'prefix' => '',
+	);
+
+	var $development = array(
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => '127.0.0.1',
 		'login' => 'root',
 		'password' => '',
-		'database' => 'cakephp',
+		'database' => 'foos',
 		'prefix' => '',
 	);
+	
+	function __construct() {
+		$this->default = ($_SERVER['HTTP_HOST'] == 'localhost') ?
+        $this->development : $this->production;
+    }
 
-	var $test = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
-		'prefix' => '',
-	);
+    function DATABASE_CONFIG() {
+        $this->__construct();
+    }
 }
 ?>
