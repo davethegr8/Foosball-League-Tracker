@@ -1,0 +1,3 @@
+2009-03-12 13:39:39 Warning: Warning (2): preg_replace_callback() [<a href='http://php.net/function.preg-replace-callback'>function.preg-replace-callback</a>]: Requires argument 2, 'typogrify::_cap_wrapper', to be a valid callback in [APP/views/helpers/typogrify.php, line 112]
+2009-03-12 13:39:39 Warning: Warning (2): preg_replace_callback() [<a href='http://php.net/function.preg-replace-callback'>function.preg-replace-callback</a>]: Requires argument 2, 'typogrify::_quote_wrapper', to be a valid callback in [APP/views/helpers/typogrify.php, line 174]
+2009-03-14 09:46:06 Warning: Warning (2): preg_match() [<a href='http://php.net/function.preg-match'>function.preg-match</a>]: Unknown modifier '?' in [APP/views/helpers/typogrify.php, line 150]

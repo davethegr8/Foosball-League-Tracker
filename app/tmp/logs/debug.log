@@ -1,0 +1,7 @@
+2009-03-11 15:46:42 Notice: Notice (1024): Please change the value of 'Security.salt' in app/config/core.php to a salt value specific to your application in [CORE/cake/libs/debugger.php, line 556]
+2009-03-11 17:38:36 Notice: Notice (1024): Please change the value of 'Security.salt' in app/config/core.php to a salt value specific to your application in [CORE/cake/libs/debugger.php, line 556]
+2009-03-12 13:36:30 Notice: Notice (8): Undefined variable: typogrify in [APP/views/posts/view.ctp, line 5]
+2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant typogrify - assumed 'typogrify' in [APP/views/helpers/typogrify.php, line 112]
+2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant _cap_wrapper - assumed '_cap_wrapper' in [APP/views/helpers/typogrify.php, line 112]
+2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant typogrify - assumed 'typogrify' in [APP/views/helpers/typogrify.php, line 174]
+2009-03-12 13:39:39 Notice: Notice (8): Use of undefined constant _quote_wrapper - assumed '_quote_wrapper' in [APP/views/helpers/typogrify.php, line 174]
