@@ -65,8 +65,6 @@
 				</p>
 			</div>
 	    </div>
-	
-	<?php echo $this->element('debug_notice') ?>
         
     </div>
     
