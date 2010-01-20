@@ -5,7 +5,7 @@ class AppController extends Controller {
 	var $helpers = array('Form', 'Html', 'Javascript', 'Stats');
 	
 	function beforeRender() {
-		if($this->params['prefix'] == 'admin') {
+		if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
 			$this->layout = 'admin';  
 		}  
 	}
