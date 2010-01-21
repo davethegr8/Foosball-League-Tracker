@@ -1,26 +1,21 @@
 <?php
-/* SVN FILE: $Id: xml.php 7945 2008-12-19 02:16:01Z gwoo $ */
 /**
  * XML Helper class file.
  *
  * Simplifies the output of XML documents.
  *
- * CakePHP(tm) :  Rapid Development Framework (http://www.cakephp.org)
- * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
- * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.view.helpers
  * @since         CakePHP(tm) v 1.2
- * @version       $Revision: 7945 $
- * @modifiedby    $LastChangedBy: gwoo $
- * @lastmodified  $Date: 2008-12-18 18:16:01 -0800 (Thu, 18 Dec 2008) $
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::import('Core', array('Xml', 'Set'));
 
@@ -33,6 +28,7 @@ App::import('Core', array('Xml', 'Set'));
  * @subpackage    cake.cake.libs.view.helpers
  */
 class XmlHelper extends AppHelper {
+
 /**
  * Default document encoding
  *
@@ -40,6 +36,7 @@ class XmlHelper extends AppHelper {
  * @var string
  */
 	var $encoding = 'UTF-8';
+
 /**
  * Constructor
  * @return void
@@ -49,6 +46,7 @@ class XmlHelper extends AppHelper {
 		$this->Xml =& new Xml();
 		$this->Xml->options(array('verifyNs' => false));
 	}
+
 /**
  * Returns an XML document header
  *
@@ -67,8 +65,9 @@ class XmlHelper extends AppHelper {
 			$attrib = 'xml ' . $attrib;
 		}
 
-		return $this->output($this->Xml->header($attrib));
+		return $this->Xml->header($attrib);
 	}
+
 /**
  * Adds a namespace to any documents generated
  *
@@ -82,6 +81,7 @@ class XmlHelper extends AppHelper {
 	function addNs($name, $url = null) {
 		return $this->Xml->addNamespace($name, $url);
 	}
+
 /**
  * Removes a namespace added in addNs()
  *
@@ -92,6 +92,7 @@ class XmlHelper extends AppHelper {
 	function removeNs($name) {
 		return $this->Xml->removeGlobalNamespace($name);
 	}
+
 /**
  * Generates an XML element
  *
@@ -112,7 +113,7 @@ class XmlHelper extends AppHelper {
 			$cdata = true;
 			unset($content['cdata']);
 		}
-		if (is_array($content) && isset($content['value'])) {
+		if (is_array($content) && array_key_exists('value', $content)) {
 			$content = $content['value'];
 		}
 		$children = array();
@@ -130,8 +131,9 @@ class XmlHelper extends AppHelper {
 		if (!$endTag) {
 			$this->Xml =& $elem;
 		}
-		return $this->output($out);
+		return $out;
 	}
+
 /**
  * Create closing tag for current element
  *
@@ -142,18 +144,22 @@ class XmlHelper extends AppHelper {
 		if ($parent =& $this->Xml->parent()) {
 			$this->Xml =& $parent;
 		}
-		return $this->output('</' . $name . '>');
+		return '</' . $name . '>';
 	}
+
 /**
  * Serializes a model resultset into XML
  *
  * @param  mixed  $data The content to be converted to XML
- * @param  array  $options The data formatting options
+ * @param  array  $options The data formatting options.  For a list of valid options, see
+ *                         XmlNode::__construct().
  * @return string A copy of $data in XML format
+ * @see XmlNode
  */
 	function serialize($data, $options = array()) {
-		$data =& new Xml($data, array_merge(array('attributes' => false, 'format' => 'attributes'), $options));
-		return $data->toString(array_merge(array('header' => false), $options));
+		$options += array('attributes' => false, 'format' => 'attributes');
+		$data =& new Xml($data, $options);
+		return $data->toString($options + array('header' => false));
 	}
 }
 ?>

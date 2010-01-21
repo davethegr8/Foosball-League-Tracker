@@ -1,26 +1,21 @@
 <?php
-/* SVN FILE: $Id: rss.php 7945 2008-12-19 02:16:01Z gwoo $ */
 /**
  * RSS Helper class file.
  *
  * Simplifies the output of RSS feeds.
  *
- * CakePHP(tm) :  Rapid Development Framework (http://www.cakephp.org)
- * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
- * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.view.helpers
  * @since         CakePHP(tm) v 1.2
- * @version       $Revision: 7945 $
- * @modifiedby    $LastChangedBy: gwoo $
- * @lastmodified  $Date: 2008-12-18 18:16:01 -0800 (Thu, 18 Dec 2008) $
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::import('Helper', 'Xml');
 
@@ -33,13 +28,15 @@ App::import('Helper', 'Xml');
  * @subpackage    cake.cake.libs.view.helpers
  */
 class RssHelper extends XmlHelper {
+
 /**
  * Helpers used by RSS Helper
  *
  * @var array
  * @access public
- **/
+ */
 	var $helpers = array('Time');
+
 /**
  * Base URL
  *
@@ -47,6 +44,7 @@ class RssHelper extends XmlHelper {
  * @var string
  */
 	var $base = null;
+
 /**
  * URL to current action.
  *
@@ -54,6 +52,7 @@ class RssHelper extends XmlHelper {
  * @var string
  */
 	var $here = null;
+
 /**
  * Parameter array.
  *
@@ -61,6 +60,7 @@ class RssHelper extends XmlHelper {
  * @var array
  */
 	var $params = array();
+
 /**
  * Current action.
  *
@@ -68,6 +68,7 @@ class RssHelper extends XmlHelper {
  * @var string
  */
 	var $action = null;
+
 /**
  * POSTed model data
  *
@@ -75,6 +76,7 @@ class RssHelper extends XmlHelper {
  * @var array
  */
 	var $data = null;
+
 /**
  * Name of the current model
  *
@@ -82,6 +84,7 @@ class RssHelper extends XmlHelper {
  * @var string
  */
 	var $model = null;
+
 /**
  * Name of the current field
  *
@@ -89,6 +92,7 @@ class RssHelper extends XmlHelper {
  * @var string
  */
 	var $field = null;
+
 /**
  * Default spec version of generated RSS
  *
@@ -96,6 +100,7 @@ class RssHelper extends XmlHelper {
  * @var string
  */
 	var $version = '2.0';
+
 /**
  * Returns an RSS document wrapped in <rss /> tags
  *
@@ -113,6 +118,7 @@ class RssHelper extends XmlHelper {
 
 		return $this->elem('rss', $attrib, $content);
 	}
+
 /**
  * Returns an RSS <channel /> element
  *
@@ -157,6 +163,7 @@ class RssHelper extends XmlHelper {
 		}
 		return $this->elem('channel', $attrib, $elems . $content, !($content === null));
 	}
+
 /**
  * Transforms an array of data using an optional callback, and maps it to a set
  * of <item /> tags
@@ -179,6 +186,7 @@ class RssHelper extends XmlHelper {
 		}
 		return $out;
 	}
+
 /**
  * Converts an array into an <item /> element and its contents
  *
@@ -209,7 +217,7 @@ class RssHelper extends XmlHelper {
 							}
 							$categories[] = $this->elem($key, $attrib, $category);
 						}
-						$elements[$key] = join('', $categories);
+						$elements[$key] = implode('', $categories);
 						continue 2;
 					} else if (is_array($val) && isset($val['domain'])) {
 						$attrib['domain'] = $val['domain'];
@@ -259,10 +267,11 @@ class RssHelper extends XmlHelper {
 			$elements[$key] = $this->elem($key, $attrib, $val);
 		}
 		if (!empty($elements)) {
-			$content = join('', $elements);
+			$content = implode('', $elements);
 		}
-		return $this->output($this->elem('item', $att, $content, !($content === null)));
+		return $this->elem('item', $att, $content, !($content === null));
 	}
+
 /**
  * Converts a time in any format to an RSS time
  *
