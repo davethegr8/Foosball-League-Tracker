@@ -1,7 +1,5 @@
 <?php
-
 class AppController extends Controller {
-
 	var $helpers = array('Form', 'Html', 'Javascript', 'Stats', 'Session');
 
 	function beforeRender() {
@@ -45,5 +43,3 @@ class AppController extends Controller {
 		return true;
 	}
 }
-
-?>
