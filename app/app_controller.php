@@ -1,19 +1,19 @@
 <?php
- 
+
 class AppController extends Controller {
-	
-	var $helpers = array('Form', 'Html', 'Javascript', 'Stats');
-	
-	function beforeRender() {  
-		if(strpos($this->action, 'admin_') !== false) {
-			$this->layout = 'admin';  
-		}  
+
+	var $helpers = array('Form', 'Html', 'Javascript', 'Stats', 'Session');
+
+	function beforeRender() {
+		if (isset($this->params['admin']) && $this->params['admin']) {
+			$this->layout = 'admin';
+		}
 	}
-	
+
 	function __validateLoginStatus() {
 		$controller = $this->params["controller"];
 		$public = array('login', 'logout', 'signup');
-		
+
 		if($controller != 'accounts' && !in_array($this->action, $public)) {
 			if($this->Session->check("Account") == false) {
 				$this->Session->setFlash("You must login to view that page.");
@@ -22,11 +22,11 @@ class AppController extends Controller {
 			}
 		}
 	}
-	
+
 	function __validateAdminLogin() {
 		$controller = $this->params["controller"];
 		$public = array('admin_login', 'admin_logout');
-		
+
 		if(isset($this->params['admin']) && $this->params['admin'] == 1 && $controller != 'users') {
 			if($this->Session->check("User") == false) {
 				$this->Session->setFlash("You must login to view that page.");
@@ -41,7 +41,7 @@ class AppController extends Controller {
 				$this->exit();
 			}
 		}
-		
+
 		return true;
 	}
 }
