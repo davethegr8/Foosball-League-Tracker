@@ -1,30 +1,22 @@
 <?php
-
 class Account extends AppModel {
-	
-	var $name = 'Account';
-	
-	//setup validation rules
-	var $validate = array();
-	
 	function validateLogin($data) {
 		$sql = "SELECT * FROM accounts WHERE email='".($data["email"])."' AND password=PASSWORD('".$data["password"]."') LIMIT 1";
 		$account = $this->query($sql);
-		
-		if(empty($account)) {
+
+		if (empty($account)) {
 			//try the md5 version for recent signups
 			$sql = "SELECT * FROM accounts WHERE email='".($data["email"])."' AND password=MD5('".$data["password"]."') LIMIT 1";
 			$account = $this->query($sql);
 		}
 
-		if(empty($account) == false) {
+		if (empty($account) == false) {
 			return $account[0];
 		}
-		
-		
+
 		return false;
 	}
-	
+
 	function register($data) {
 		$this->validate = array(
 			'email' => array(
@@ -38,21 +30,20 @@ class Account extends AppModel {
 				)
 			)
 		);
-		
+
 		unset($data["confirm"]);
-		
+
 		$data["password"] = md5($data["password"]);
-		
+
 		$account = $this->save($data);
-		
-		if(empty($account) == false) {
+
+		if (empty($account) == false) {
 			return $account["Account"];
 		}
-		
-		return false;
 
+		return false;
 	}
-	
+
 	function getLeague() {
 		$sql = "
 			SELECT name, players.id, wins, loss, rank
@@ -61,19 +52,19 @@ class Account extends AppModel {
 				SELECT players.id as player_id,
 					SUM(IF(side=1 AND side_1_score>side_2_score, 1, 0) + IF(side=2 AND side_2_score>side_1_score, 1, 0)) AS wins,
 					SUM(IF(side=1 AND side_1_score<side_2_score, 1, 0) + IF(side=2 AND side_2_score<side_1_score, 1, 0)) AS loss
-				FROM games_players 
-				LEFT JOIN games ON game_id=games.id 
-				LEFT JOIN players ON player_id=players.id 
+				FROM games_players
+
+				LEFT JOIN games ON game_id=games.id
+
+				LEFT JOIN players ON player_id=players.id
+
 				WHERE players.account_id=".$this->id."
 				GROUP BY player_id
 			) AS record ON players.id=player_id
 			WHERE players.account_id=".$this->id."
 			GROUP BY id
 			ORDER BY rank DESC, name ASC";
-			
+
 		return $this->query($sql);
 	}
-	
 }
-
-?>
