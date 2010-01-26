@@ -1,28 +1,24 @@
 <?php
-/* SVN FILE: $Id: file.php 7945 2008-12-19 02:16:01Z gwoo $ */
 /**
  * File Storage engine for cache
  *
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) :  Rapid Development Framework (http://www.cakephp.org)
- * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
- * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.cache
  * @since         CakePHP(tm) v 1.2.0.4933
- * @version       $Revision: 7945 $
- * @modifiedby    $LastChangedBy: gwoo $
- * @lastmodified  $Date: 2008-12-18 18:16:01 -0800 (Thu, 18 Dec 2008) $
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
 /**
  * File Storage engine for cache
  *
@@ -31,25 +27,29 @@
  * @subpackage    cake.cake.libs.cache
  */
 class FileEngine extends CacheEngine {
+
 /**
  * Instance of File class
  *
- * @var object
+ * @var File
  * @access private
  */
 	var $__File = null;
+
 /**
- * settings
- * 		path = absolute path to cache directory, default => CACHE
- * 		prefix = string prefix for filename, default => cake_
- * 		lock = enable file locking on write, default => false
- * 		serialize = serialize the data, default => true
+ * Settings
+ * 
+ * - path = absolute path to cache directory, default => CACHE
+ * - prefix = string prefix for filename, default => cake_
+ * - lock = enable file locking on write, default => false
+ * - serialize = serialize the data, default => true
  *
  * @var array
  * @see CacheEngine::__defaults
  * @access public
  */
 	var $settings = array();
+
 /**
  * Set to true if FileEngine::init(); and FileEngine::__active(); do not fail.
  *
@@ -57,6 +57,7 @@ class FileEngine extends CacheEngine {
  * @access private
  */
 	var $__active = false;
+
 /**
  * True unless FileEngine::__active(); fails
  *
@@ -64,6 +65,7 @@ class FileEngine extends CacheEngine {
  * @access private
  */
 	var $__init = true;
+
 /**
  * Initialize the Cache Engine
  *
@@ -99,6 +101,7 @@ class FileEngine extends CacheEngine {
 		}
 		return $this->__active();
 	}
+
 /**
  * Garbage collection. Permanently remove all expired and deleted data
  *
@@ -108,6 +111,7 @@ class FileEngine extends CacheEngine {
 	function gc() {
 		return $this->clear(true);
 	}
+
 /**
  * Write data for key into cache
  *
@@ -149,6 +153,7 @@ class FileEngine extends CacheEngine {
 		$this->__File->close();
 		return $success;
 	}
+
 /**
  * Read a key from the cache
  *
@@ -168,7 +173,6 @@ class FileEngine extends CacheEngine {
 
 		if ($cachetime !== false && ($cachetime < $time || ($time + $this->settings['duration']) < $cachetime)) {
 			$this->__File->close();
-			$this->__File->delete();
 			return false;
 		}
 		$data = $this->__File->read(true);
@@ -182,6 +186,7 @@ class FileEngine extends CacheEngine {
 		$this->__File->close();
 		return $data;
 	}
+
 /**
  * Delete a key from the cache
  *
@@ -195,6 +200,7 @@ class FileEngine extends CacheEngine {
 		}
 		return $this->__File->delete();
 	}
+
 /**
  * Delete all values from the cache
  *
@@ -234,6 +240,7 @@ class FileEngine extends CacheEngine {
 		$dir->close();
 		return true;
 	}
+
 /**
  * Get absolute file for a given key
  *
@@ -251,6 +258,7 @@ class FileEngine extends CacheEngine {
 			return false;
 		}
 	}
+
 /**
  * Determine is cache directory is writable
  *

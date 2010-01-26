@@ -1,35 +1,30 @@
 <?php
-/* SVN FILE: $Id: cake_web_test_case.php 7945 2008-12-19 02:16:01Z gwoo $ */
 /**
- * Short description for file.
- *
- * Long description for file
+ * CakeWebTestCase a simple wrapper around WebTestCase
  *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
- * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *  Licensed under The Open Group Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          https://trac.cakephp.org/wiki/Developement/TestSuite CakePHP(tm) Tests
  * @package       cake
  * @subpackage    cake.cake.tests.lib
  * @since         CakePHP(tm) v 1.2.0.4433
- * @version       $Revision: 7945 $
- * @modifiedby    $LastChangedBy: gwoo $
- * @lastmodified  $Date: 2008-12-18 18:16:01 -0800 (Thu, 18 Dec 2008) $
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
+
 /**
- * Short description
+ * Ignore base class.
  */
-	SimpleTestOptions::ignore('CakeWebTestCase');
+	SimpleTest::ignore('CakeWebTestCase');
+
 /**
- * Short description for class.
+ * Simple wrapper for the WebTestCase provided by SimpleTest
  *
  * @package       cake
  * @subpackage    cake.cake.tests.lib

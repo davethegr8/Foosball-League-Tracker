@@ -1,28 +1,24 @@
 <?php
-/* SVN FILE: $Id: memcache.php 7945 2008-12-19 02:16:01Z gwoo $ */
 /**
  * Memcache storage engine for cache
  *
  *
  * PHP versions 4 and 5
  *
- * CakePHP(tm) :  Rapid Development Framework (http://www.cakephp.org)
- * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
- * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.cake.libs.cache
  * @since         CakePHP(tm) v 1.2.0.4933
- * @version       $Revision: 7945 $
- * @modifiedby    $LastChangedBy: gwoo $
- * @lastmodified  $Date: 2008-12-18 18:16:01 -0800 (Thu, 18 Dec 2008) $
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
 /**
  * Memcache storage engine for cache
  *
@@ -30,22 +26,27 @@
  * @subpackage    cake.cake.libs.cache
  */
 class MemcacheEngine extends CacheEngine {
+
 /**
  * Memcache wrapper.
  *
- * @var object
+ * @var Memcache
  * @access private
  */
 	var $__Memcache = null;
+
 /**
- * settings
- * 		servers = string or array of memcache servers, default => 127.0.0.1
- * 		compress = boolean, default => false
+ * Settings
+ *
+ *  - servers = string or array of memcache servers, default => 127.0.0.1. If an
+ *    array MemcacheEngine will use them as a pool.
+ *  - compress = boolean, default => false
  *
  * @var array
  * @access public
  */
 	var $settings = array();
+
 /**
  * Initialize the Cache Engine
  *
@@ -61,7 +62,10 @@ class MemcacheEngine extends CacheEngine {
 			return false;
 		}
 		parent::init(array_merge(array(
-			'engine'=> 'Memcache', 'prefix' => Inflector::slug(APP_DIR) . '_', 'servers' => array('127.0.0.1'), 'compress'=> false
+			'engine'=> 'Memcache', 
+			'prefix' => Inflector::slug(APP_DIR) . '_', 
+			'servers' => array('127.0.0.1'),
+			'compress'=> false
 			), $settings)
 		);
 
@@ -89,6 +93,7 @@ class MemcacheEngine extends CacheEngine {
 		}
 		return true;
 	}
+
 /**
  * Write data for key into cache
  *
@@ -100,9 +105,10 @@ class MemcacheEngine extends CacheEngine {
  */
 	function write($key, &$value, $duration) {
 		$expires = time() + $duration;
-		$this->__Memcache->set($key.'_expires', $expires, $this->settings['compress'], $duration);
-		return $this->__Memcache->set($key, $value, $this->settings['compress'], $duration);
+		$this->__Memcache->set($key . '_expires', $expires, $this->settings['compress'], $expires);
+		return $this->__Memcache->set($key, $value, $this->settings['compress'], $expires);
 	}
+
 /**
  * Read a key from the cache
  *
@@ -112,12 +118,13 @@ class MemcacheEngine extends CacheEngine {
  */
 	function read($key) {
 		$time = time();
-		$cachetime = intval($this->__Memcache->get($key.'_expires'));
+		$cachetime = intval($this->__Memcache->get($key . '_expires'));
 		if ($cachetime < $time || ($time + $this->settings['duration']) < $cachetime) {
 			return false;
 		}
 		return $this->__Memcache->get($key);
 	}
+
 /**
  * Delete a key from the cache
  *
@@ -128,6 +135,7 @@ class MemcacheEngine extends CacheEngine {
 	function delete($key) {
 		return $this->__Memcache->delete($key);
 	}
+
 /**
  * Delete all keys from the cache
  *
@@ -137,6 +145,7 @@ class MemcacheEngine extends CacheEngine {
 	function clear() {
 		return $this->__Memcache->flush();
 	}
+
 /**
  * Connects to a server in connection pool
  *
