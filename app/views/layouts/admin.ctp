@@ -41,6 +41,7 @@
         </div>
 
 		<div id="sidebar">
+			<? if($session->check("User")):?>
 			<ul class="nav">
 				<li><span><?php //echo $user["email"] ?></span></li>
 				<li><a href="<?= $this->base ?>/admin/users/">Users</a></li>
@@ -50,6 +51,7 @@
 				<li><a href="<?= $this->base ?>/admin/pages/">Pages</a></li>
 				<li><a href="<?php echo $this->base ?>/admin/users/logout">Logout</a></li>
 			</ul>
+			<? endif; ?>
 		</div>
         
         <div id="content">
