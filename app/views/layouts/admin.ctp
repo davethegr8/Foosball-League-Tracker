@@ -15,9 +15,8 @@
     
 	<link rel="icon" href="<?php echo $this->webroot;?>favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="<?php echo $this->webroot;?>favicon.ico" type="image/x-icon" />
-	<link rel="alternate" type="application/rss+xml" href="<?= $this->base ?>/posts/rss/" />
     
-	<?= $html->css('style.css'); ?>
+	<?= $html->css('admin.css'); ?>
 	
 	<?= $javascript->link('jquery-1.3.2.min.js'); ?>
 	
