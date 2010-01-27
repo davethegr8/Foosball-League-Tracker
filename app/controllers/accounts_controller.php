@@ -1,6 +1,5 @@
 <?php
 class AccountsController extends AppController {
-	function index() {}
 
 	function beforeFilter() {
 		$this->__validateLoginStatus();
@@ -19,7 +18,7 @@ class AccountsController extends AppController {
 			}
 		}
 
-		$this->redirect('index');
+		$this->redirect('league');
 		$this->exit();
 	}
 
@@ -52,6 +51,10 @@ class AccountsController extends AppController {
 		}
 
 		//else just show the signup form
+	}
+
+	function index() {
+		$this->view();
 	}
 
 	function view() {
