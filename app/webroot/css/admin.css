@@ -1,0 +1,444 @@
+/* CSS Document */
+
+body{
+	background:url(../img/bg.jpg) repeat-x top center #373737;
+	margin:0px;
+	padding:0px;
+	text-align:center;
+	font:14px Georgia,serif;
+}
+
+a{
+	color:#9CF;
+	text-decoration:none;
+	border-bottom:1px dotted #9CF;
+}
+
+a:hover{
+	color:#FFF;
+	border-bottom:1px dotted #FFF;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-variant:small-caps;
+	margin:12px;
+	font-weight:normal;
+	margin-left:0;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+div.message {
+	padding: 4px 20px;
+	margin: 10px 0;
+	background: #333;
+	border: 1px solid black;
+}
+
+div.success {
+	border-color: #6c6;
+}
+
+div.error {
+	border-color: #f66;
+}
+
+div.message p {
+	margin: 0;
+}
+
+.bigger {
+	font-size: 175%;
+	line-height: 125%;
+}
+
+.blue {
+	color: #9CF;
+}
+
+h1{font-size:24px}
+h2{font-size:22px}
+h3{font-size:20px}
+h4{font-size:18px}
+h5{font-size:16px}
+h6{font-size:14px}
+
+blockquote{
+	border-top:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+	letter-spacing:1px;
+	line-height:20px;
+	color:#9CF;
+	font-size:15px;
+	font-weight:bold;
+	padding:0 20px 0 60px;
+	background:url(../img/quote.jpg) no-repeat top left #222;
+}
+
+ul{
+	list-style-type:square;
+}
+
+label {
+	display: block;
+	color: #9CF;
+}
+
+.sideitem #AccountLoginForm {
+	padding: 0px 10px;
+}
+
+#AccountLoginForm input.field {
+	width: 175px;
+	margin-bottom: 10px;
+}
+
+form.big label {
+	font-size: 24px;
+}
+
+form.big input {
+	font-size: 18px;
+}
+
+form.game input {
+	margin: 0 auto;
+}
+
+form.game select {
+	margin: 4px 0;
+	border-width: 2px;
+	border-style: outset;
+	border-color: #222;
+	background: #DDD;
+}
+
+form.game .submit {
+	margin-top: 10px;
+}
+
+form.game td {
+	text-align: center;
+	font-size: 18px;
+}
+
+form input {
+	display: block;
+	margin-bottom: 20px;
+	font-family: georgia, serif;
+	border: 1px solid #222;
+	padding: 2px;
+	background: #CCC;
+}
+
+form input.submit {
+	border-width: 2px;
+	border-style: outset;
+}
+
+#content table {
+	margin: 0 auto;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 3px;
+}
+
+th {
+	font-size: 18px;
+	font-weight: normal;
+	padding: 3px 30px;
+}
+
+.vs {
+	padding: 3px;
+}
+
+.players {
+	font-size: 16px;
+}
+
+.side1 {
+	text-align: right;
+}
+
+.side2 {
+	text-align: left;
+}
+
+.score {
+	font-size: 24px;
+	width: 28px;
+	text-align: center;
+}
+
+td.win {
+	background: #222;
+}
+
+.score.win {
+}
+
+.intro{
+	border-top:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+	padding:8px;
+	background-color:#222;
+}
+
+.dropcap{
+	line-height: 72px;
+	font-size: 72px;
+	width:auto;
+	float:left;
+	margin: -7px 5px 0 0;
+	color:#AAA;
+}
+
+#container{
+	width: 960px;
+	margin: auto;
+	padding: 70px 0 0px 0;
+	color: #CCC;
+}
+
+#header{
+	font-variant:small-caps;
+	font-size:36px;
+	position:relative;
+	margin:auto;
+}
+
+#menubar{
+	background-color:#222;
+	font-variant:small-caps;
+	font-size:14px;
+	border-top:3px double #999;
+	border-bottom:3px double #999;
+	margin:10px 0 10px 0;
+}
+
+#menubar ul{
+	list-style:none;
+	margin:4px;
+}
+
+#menubar ul li{
+	display: inline;
+	padding:0 40px 0 0;
+}
+
+#menubar ul li a{
+	color:#9CF;
+	text-decoration:none;
+	border-bottom:0;
+	background-image:none;
+}
+
+#menubar ul li a:hover{
+	color:#CCC;
+}
+
+
+#content{
+	text-align:left;
+	width: 690px;
+	float:left;
+	margin: auto auto 20px auto;
+	position:relative;
+}
+
+#content p{
+	line-height:20px;
+	letter-spacing:1px;
+	margin-top: 10px;
+}
+
+
+.blog {
+	overflow: hidden;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.blogdate {
+	border-bottom: 3px double #999;
+	text-align: center;
+	width: 120px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	background-color: #222;
+}
+
+.daynum {
+	font-size: 36px;
+	color: #9CF;
+}
+
+.month {
+	font-size: 12px;
+	padding-left: 0px;
+	font-variant: small-caps;
+	text-align: center;
+}
+
+.blog_l {
+	border-top: 3px double #999;
+	float: left;
+	width: 120px;
+	text-align: right;
+	font-variant: small-caps;
+	letter-spacing: 2px;
+}
+
+.blog_l img {
+	border-top:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+	padding:2px 0 2px 0;
+	margin-bottom:10px;
+}
+
+.blog_r {
+	border-top:3px double #999;
+	float: left;
+	padding-top:10px;
+	padding-left:20px;
+	margin-bottom: 20px;
+}
+
+.blog_r h2{
+	margin-top:-8px;
+}
+
+.blog_r h5{
+	margin-top:-16px;
+	letter-spacing:2px;
+	color:#9CF;
+}
+
+.blog_r .blog_interior {
+	width: 550px;
+}
+
+.blogfoot{
+	font-variant:small-caps;
+	letter-spacing:2px;
+	margin-bottom:40px;
+	text-align: center;
+}
+
+.blogfoot a{
+	margin:0 10px 0 10px;
+}
+
+
+#sidebar { 
+	width: 250px;
+	float:left;
+	text-align:left;
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+
+.sideitem p,.sideitem h3{
+	margin:10px;
+	line-height:16px;
+}
+
+.sideitem h3{
+	color:#9CF
+}
+
+.sideitem{
+	background-color:#222;
+	border-top:1px dotted #999;
+	border-bottom:1px dotted #999;
+	margin-top:10px;
+}
+
+.nav {
+	text-align:left;
+	width: 250px;
+	font-variant:small-caps;
+	letter-spacing:1px;
+	margin-top: 10px;
+}
+
+.nav a, .nav li span {
+	display:block;
+	background-color:transparent;
+	border-bottom:0;
+	padding:10px;
+}
+
+.nav li span {
+	font-style: italic;
+	font-variant: normal;
+}
+
+.nav li{
+	width: 250px;
+	height: 35px;
+	margin: 0 0 -1px -40px;
+	white-space: nowrap;
+	border-top: 1px dotted #999;
+	border-bottom: 1px dotted #999;
+	background-color: #222;
+	list-style-type: none;
+}
+
+.nav li:hover{
+	background-color:#333;
+}
+
+.plot {
+	width: auto;
+	height: 250px;
+	
+	margin-bottom: 2em;
+}
+
+/** Page **/
+
+.page_footer {
+	margin-top: 20px;
+ 	border-top: 3px double #CCC;
+}
+
+.page_footer p {
+	margin: 5px 0;
+	text-align: right;
+	font-style: italic;
+	font-size: .75em;
+}
+
+#footer{
+	clear: both;
+	margin-top: 20px;
+ 	border-top:3px double #CCC;
+ 	text-align:center;
+ 	font-size:11px;
+	background-color:#222;
+	
+	padding-bottom: 11px;
+}
+
+#footer p{
+	margin-top:4px;
+}
+
+.bottomlinks{
+	font-size:12px;
+	margin-top:8px;
+	margin-bottom:-8px;
+}
+
+#player_graph {
+	height: 200px;
+}
