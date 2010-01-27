@@ -1,12 +1,11 @@
-<h2>Accounts: <?= $count ?></h2>
-
+<h2>New Accounts Registered</h2>
 
 <div id="accounts_graph" class="plot"></div>
 <script>
 $(function () {
 	<? 
 	foreach($range as $i => $value) {
-		$temp[] = '['.$i.', '.$value.']';
+		$temp[] = '['.($i * 1000).', '.$value.']';
 	}
 	?>
 	
@@ -17,8 +16,8 @@ $(function () {
 		lines: { show: true },
 		grid: { hoverable: true, color: "#999" },
 		xaxis: {
-			min: 0,
-			ticksize: 1
+			ticksize: 1,
+			mode: 'time'
 		}
 	};
 	
@@ -62,6 +61,8 @@ $(function () {
 	
 });
 </script>
+
+<h2>All Accounts: <?= $count ?></h2>
 
 <table border="1" cellspacing="0">
 	<tr>

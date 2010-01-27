@@ -135,9 +135,9 @@ class AccountsController extends AppController {
 
 		while ($date <= $end) {
 			if (isset($daily[$date])) {
-				$range[] = $daily[$date];
+				$range[(strtotime($date))] = $daily[$date];
 			} else {
-				$range[] = 0;
+				$range[(strtotime($date))] = 0;
 			}
 
 			$date = date("Y-m-d", strtotime($date." +1 day"));

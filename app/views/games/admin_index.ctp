@@ -5,7 +5,7 @@
 $(function () {
 	<? 
 	foreach($range as $i => $value) {
-		$temp[] = '['.$i.', '.$value.']';
+		$temp[] = '['.($i * 1000).', '.$value.']';
 	}
 	?>
 	
@@ -16,8 +16,8 @@ $(function () {
 		lines: { show: true },
 		grid: { hoverable: true, color: "#999" },
 		xaxis: {
-			min: 0,
-			ticksize: 1
+			ticksize: 1,
+			mode: 'time'
 		}
 	};
 	
