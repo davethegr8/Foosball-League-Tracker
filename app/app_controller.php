@@ -24,8 +24,8 @@ class AppController extends Controller {
 	function __validateAdminLogin() {
 		$controller = $this->params["controller"];
 		$public = array('admin_login', 'admin_logout');
-
-		if (isset($this->params['admin']) && $this->params['admin'] == 1 && $controller != 'users') {
+		
+		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && $controller != 'users') {
 			if ($this->Session->check("User") == false) {
 				$this->Session->setFlash("You must login to view that page.");
 				$this->redirect('/admin/users/login');
