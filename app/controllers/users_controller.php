@@ -32,6 +32,8 @@ class UsersController extends AppController {
 	}
 
 	function admin_index() {
-
+		$data['users'] = $this->User->find('all');
+		
+		$this->set($data);
 	}
 }
