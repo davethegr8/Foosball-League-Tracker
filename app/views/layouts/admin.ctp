@@ -3,7 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<?php echo $html->charset(); ?>
-	<? $account = $session->read("Account"); ?>
+	<?
+	$account = $session->read("Account");
+	$user = $session->read('User');
+	?>
     
 	<title>Foosball League Score Tracker :: <?php echo $title_for_layout; ?></title>
     
@@ -43,7 +46,7 @@
 		<div id="sidebar">
 			<? if($session->check("User")):?>
 			<ul class="nav">
-				<li><span><?php //echo $user["email"] ?></span></li>
+				<li><span><?php echo $user['User']["email"] ?></span></li>
 				<li><a href="<?= $this->base ?>/admin/users/">Users</a></li>
 				<li><a href="<?= $this->base ?>/admin/accounts/">Accounts</a></li>
 				<li><a href="<?= $this->base ?>/admin/games/">Games</a></li>
