@@ -8,10 +8,7 @@
 	$user = $session->read('User');
 	?>
     
-	<title>Foosball League Score Tracker :: <?php echo $title_for_layout; ?></title>
-    
-	<meta name="description" content="Tracks your work or home foosball games and record." />
-	<meta name="keywords" content="foosball score league tracking track record" />
+	<title>Foosball Tracker Admin :: <?php echo $title_for_layout; ?></title>
     
 	<link rel="icon" href="<?php echo $this->webroot;?>favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="<?php echo $this->webroot;?>favicon.ico" type="image/x-icon" />
