@@ -1,0 +1,33 @@
+<?php
+class DATABASE_CONFIG {
+
+	var $default = array();
+	
+	var $production = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => '',
+		'login' => '',
+		'password' => '',
+		'database' => 'foos',
+		'prefix' => '',
+	);
+
+	var $development = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => '127.0.0.1',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'foos',
+		'prefix' => '',
+	);
+	
+	function __construct() {
+		if ($_SERVER['HTTP_HOST'] == 'localhost') {
+			$this->default = $this->development;
+		} else {
+			$this->default = $this->production;
+		}
+	}
+}
