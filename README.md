@@ -1,1 +1,0 @@
-# This is a Foosball League scores / stats tracking application
