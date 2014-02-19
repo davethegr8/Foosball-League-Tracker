@@ -39,8 +39,6 @@ LOCK TABLES `accounts` WRITE;
 
 INSERT INTO `accounts` (`id`, `email`, `password`, `created`)
 VALUES
-  (43,'davethegr8@example.com','','2009-03-18 19:11:12'),
-  (49,'dave@example.com','','2009-10-09 08:40:33'),
   (51,'user@example.com','5f4dcc3b5aa765d61d8327deb882cf99','2014-02-19 15:31:53');
 
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
