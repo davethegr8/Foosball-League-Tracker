@@ -129,6 +129,7 @@ form.game td {
 
 form.game .score-box {
 	text-align: center;
+	width: 6em;
 }
 
 form.game td div.number {
