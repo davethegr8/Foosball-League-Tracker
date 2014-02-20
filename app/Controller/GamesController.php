@@ -155,7 +155,7 @@ class GamesController extends AppController {
 
 			//transform to mysqlsafe
 			foreach ($insert as $key => $value) {
-				$insert[$key] = "'".mysql_real_escape_string($value)."'";
+				$insert[$key] = "'".addslashes($value)."'";
 			}
 
 			//insert into rank tracking

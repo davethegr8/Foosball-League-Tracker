@@ -75,7 +75,7 @@ class Player extends AppModel {
 
 		$sql = "SELECT *
 				FROM rank_track
-				WHERE players_id=".mysql_real_escape_string($playerID)."
+				WHERE players_id='".intval($playerID)."'
 				ORDER BY games_id ASC";
 		$result = $this->query($sql);
 
