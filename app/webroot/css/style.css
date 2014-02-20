@@ -105,6 +105,7 @@ form.big input {
 
 form.game input {
 	margin: 0 auto;
+	font-size: 18px;
 }
 
 form.game select {
@@ -113,6 +114,8 @@ form.game select {
 	border-style: outset;
 	border-color: #222;
 	background: #DDD;
+	font-size: 18px;
+	width: 100%;
 }
 
 form.game .submit {
@@ -122,6 +125,25 @@ form.game .submit {
 form.game td {
 	text-align: center;
 	font-size: 18px;
+}
+
+form.game .score-box {
+	text-align: center;
+}
+
+form.game td div.number {
+	float: left;
+	height: 60px;
+}
+
+form.game td i {
+	float: left;
+	padding: 26px 12px 12px 12px;
+	cursor: pointer;
+}
+
+form.game td i:hover {
+	color: #99CCFF;
 }
 
 form input {
@@ -154,6 +176,7 @@ th {
 	font-size: 18px;
 	font-weight: normal;
 	padding: 3px 30px;
+	text-align: center;
 }
 
 .vs {
@@ -338,7 +361,7 @@ td.win {
 }
 
 
-#sidebar { 
+#sidebar {
 	width: 250px;
 	float:left;
 	text-align:left;
@@ -400,7 +423,7 @@ td.win {
 .plot {
 	width: auto;
 	height: 250px;
-	
+
 	margin-bottom: 2em;
 }
 
@@ -425,7 +448,7 @@ td.win {
  	text-align:center;
  	font-size:11px;
 	background-color:#222;
-	
+
 	padding-bottom: 11px;
 }
 
@@ -437,8 +460,4 @@ td.win {
 	font-size:12px;
 	margin-top:8px;
 	margin-bottom:-8px;
-}
-
-#player_graph {
-	height: 200px;
 }

@@ -34,7 +34,10 @@ class GamesController extends AppController {
 	function add() {
 		$data["players"][""] = " - ";
 		$players = $this->Player->find('all', array(
-			'conditions' => array('account_id' => $this->Session->read("Account.id"))
+			'conditions' => array(
+				'account_id' => $this->Session->read("Account.id")
+			),
+			'order' => 'name ASC'
 		));
 
 		foreach ($players as $player) {

@@ -4,19 +4,45 @@
 	<table border="1" cellspacing="1">
 		<tr>
 			<th>Side 1</th>
-			<th class="vs">vs.</th>
+			<th>vs.</th>
 			<th>Side 2</th>
 		</tr>
 		<tr>
-			<td><?= $this->form->input('side_1_score', array('size' => 6, 'label' => 'Score')) ?></td>
+			<td>
+				<i class="fa fa-minus score-minus"></i>
+				<?php
+				echo $this->form->input('side_1_score', array(
+					'size' => 6,
+					'label' => 'Score',
+					'class' => 'score-box',
+					'type' => 'number',
+					'pattern' => '[0-9]*'
+				));
+				?>
+				<i class="fa fa-plus score-plus"></i>
+			</td>
 			<td></td>
-			<td><?= $this->form->input('side_2_score', array('size' => 6, 'label' => 'Score')) ?></td>
+			<td>
+				<i class="fa fa-minus score-minus"></i>
+				<?php
+				echo $this->form->input('side_2_score', array(
+					'size' => 6,
+					'label' => 'Score',
+					'class' => 'score-box',
+					'type' => 'number',
+					'pattern' => '[0-9]*'
+				));
+				?>
+				<i class="fa fa-plus score-plus"></i>
+			</td>
 		</tr>
 		<tr>
 			<td><label>Players</label>
 			<?= $this->form->input('side[1][]', array('options' => $players, 'label' => '')); ?><br />
 			<?= $this->form->input('side[1][]', array('options' => $players, 'label' => '')); ?></td>
-			<td></td>
+			<td>
+				<img src="/img/table.png" style="width: 250px"/>
+			</td>
 			<td><label>Players</label>
 			<?= $this->form->input('side[2][]', array('options' => $players, 'label' => '')); ?><br />
 			<?= $this->form->input('side[2][]', array('options' => $players, 'label' => '')); ?></td>

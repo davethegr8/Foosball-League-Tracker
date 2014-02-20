@@ -11,6 +11,7 @@
 	<?php
 	echo $this->Html->meta('icon');
 	echo $this->Html->css('style');
+	echo $this->Html->css('font-awesome.min');
 	?>
 
 	<meta name="description" content="Tracks your work or home foosball games and record." />
@@ -18,10 +19,9 @@
 
 	<link rel="alternate" type="application/rss+xml" href="<?= $this->base ?>/posts/rss/" />
 
-	<?= $this->Html->script('jquery-1.3.2.min.js'); ?>
+	<?= $this->Html->script('jquery-1.10.2.min.js'); ?>
 
-	<!--[if IE]><?= $this->Html->script("excanvas.pack.js") ?><![endif]-->
-	<?= $this->Html->script('jquery.flot.pack.js'); ?>
+	<?= $this->Html->script('Chart.min.js'); ?>
 
 
     <script type="text/javascript">
@@ -100,5 +100,6 @@
 	    </div>
 
     </div>
+    <?= $this->Html->script('functions.js'); ?>
 </body>
 </html>
