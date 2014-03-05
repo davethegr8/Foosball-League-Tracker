@@ -111,25 +111,28 @@ class GamesController extends AppController {
 		return $result;
 	}
 
-	function __rankGame($data) {
+	function __rankGame($data, array $options = array()) {
 		//** SETTINGS **//
- 		//the amount of points you get for playing. Makes rank have an overall upwards trend
-		//makes it kinda worthwhile to play, even if you suck
-		$participation_points = 3;
+		$defaults = array(
+			//the amount of points you get for playing. Makes rank have an overall upwards trend
+			//makes it kinda worthwhile to play, even if you suck
+			'participation_points' => 3,
 
-		//how important the difference in goals is. 1 = not important.
+			//how important the difference in goals is. 1 = not important.
 
-		//setting higher makes larger score differences give more points.
-		$goal_diff_multiplier = 1;
+			//setting higher makes larger score differences give more points.
+			'goal_diff_multiplier' => 1,
 
-		//how many points you get for winning
-		$win_points = 10;
+			//how many points you get for winning
+			'win_points' => 10,
 
-		//how many points is the minimum for winning
-		$win_min_points = 0;
+			//how many points is the minimum for winning
+			'win_min_points' => 0,
 
-		//how many points = expected goal diff of one
-		$one_goal_diff = 100;
+			//how many points = expected goal diff of one
+			'one_goal_diff' => 100
+		);
+		$options = array_merge($defaults, $options);
 
 		//need players ranks
 		foreach ($data["Players"] as $player) {
@@ -169,8 +172,8 @@ class GamesController extends AppController {
 
 		//figure out expected and actual values
 
-		$expected_diff[1] = ceil( ($ranks[1] - $ranks[2]) / $one_goal_diff);
-		$expected_diff[2] = ceil( ($ranks[2] - $ranks[1]) / $one_goal_diff);
+		$expected_diff[1] = ceil( ($ranks[1] - $ranks[2]) / $options['one_goal_diff']);
+		$expected_diff[2] = ceil( ($ranks[2] - $ranks[1]) / $options['one_goal_diff']);
 
 		$actual_diff[1] = $data["Game"]["side_1_score"] - $data["Game"]["side_2_score"];
 		$actual_diff[2] = $data["Game"]["side_2_score"] - $data["Game"]["side_1_score"];
@@ -178,19 +181,25 @@ class GamesController extends AppController {
 		$final_diff[1] = $actual_diff[1] - $expected_diff[1];
 		$final_diff[2] = $actual_diff[2] - $expected_diff[2];
 
-		$points[1] = $final_diff[1] * $goal_diff_multiplier + $participation_points;
-		$points[2] = $final_diff[2] * $goal_diff_multiplier + $participation_points;
+		$points[1] = $final_diff[1] * $options['goal_diff_multiplier'] + $options['participation_points'];
+		$points[2] = $final_diff[2] * $options['goal_diff_multiplier'] + $options['participation_points'];
 
 		if ($data["Game"]["side_1_score"] > $data["Game"]["side_2_score"]) {
-			$points[1] += $win_points;
-			$points[1] = max($points[1], $win_min_points);
+			$points[1] += $options['win_points'];
 
-			$points[2] -= $win_points;
+			if (is_int($options['win_min_points'])) {
+				$points[1] = max($points[1], $options['win_min_points']);
+			}
+
+			$points[2] -= $options['win_points'];
 		} elseif ($data["Game"]["side_1_score"] < $data["Game"]["side_2_score"]) {
-			$points[2] += $win_points;
-			$points[2] = max($points[2], $win_min_points);
+			$points[2] += $options['win_points'];
 
-			$points[1] -= $win_points;
+			if (is_int($options['win_min_points'])) {
+				$points[2] = max($points[2], $options['win_min_points']);
+			}
+
+			$points[1] -= $options['win_points'];
 		} else {
 			//ties don't happen
 		}
