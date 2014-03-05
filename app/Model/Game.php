@@ -15,4 +15,6 @@ class Game extends AppModel {
 		$sql = "INSERT INTO games_players(game_id, player_id, side) VALUES ({$this->id}, {$player["player_id"]}, {$player["side"]})";
 		return $this->query($sql);
 	}
+
+
 }

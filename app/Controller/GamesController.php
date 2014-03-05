@@ -1,6 +1,7 @@
 <?php
 class GamesController extends AppController {
-	var $uses = array('Game', 'Player');
+	public $uses = array('Game', 'Player');
+	public $components = array('Elo', 'FoosRank');
 
 	function beforeFilter() {
 		if(isset($this->params['admin']) && $this->params['admin']) {
@@ -75,26 +76,28 @@ class GamesController extends AppController {
 	}
 
 	function __saveGame($data) {
+		$game_players = array();
 
 		//put into game
 		$sides = array();
 		$sides[1] = $data["Game"]["side[1"]; //this is odd.
 		$sides[2] = $data["Game"]["side[2"]; //this is odd.
 
-		$game_players = array();
-
 		//put into game player
-		foreach ($sides as $side => $players) {
-			foreach ($players as $player) {
+		foreach ($sides as $side => $person) {
+			foreach ($person as $id) {
 				//make sure the insert array is empty
 				$insert = array();
 
-				if (empty($player) == false) {
+				if (empty($id) == false) {
 					//insert into table
-					$insert["player_id"] = $player;
+					$insert["player_id"] = $id;
 					$insert["side"] = $side;
 
-					$data["Players"][] = $insert;
+					$data["Players"][$id] = $insert;
+
+					$game_players[$id] = $this->Player->read(null, $id);
+					$game_players[$id]['side'] = $side;
 				}
 			}
 		}
@@ -105,54 +108,37 @@ class GamesController extends AppController {
 			$this->Game->savePlayer($player);
 		}
 
-		//rank game
-		$this->message = $this->__rankGame($data);
+		$game['side1']['score'] = $data['Game']['side_1_score'];
+		$game['side2']['score'] = $data['Game']['side_2_score'];
+
+		$this->trackRank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
+
+		$ranking = $this->FoosRank->rank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
+
+		//update player ranks
+		foreach ($ranking as $player) {
+			$this->Player->changeRank($player["Player"]["id"], $player["Player"]["rank"], "rank");
+
+			$this->message .= $player['Player']['name'].': '.$player['diff'].', ';
+		}
+
+		$this->message = trim($this->message, ", ");
 
 		return $result;
 	}
 
-	function __rankGame($data, array $options = array()) {
-		//** SETTINGS **//
-		$defaults = array(
-			//the amount of points you get for playing. Makes rank have an overall upwards trend
-			//makes it kinda worthwhile to play, even if you suck
-			'participation_points' => 3,
+	function trackRank($players, $side1_score, $side2_score) {
+		$side_players = array(1 => array(), 2 => array());
 
-			//how important the difference in goals is. 1 = not important.
-
-			//setting higher makes larger score differences give more points.
-			'goal_diff_multiplier' => 1,
-
-			//how many points you get for winning
-			'win_points' => 10,
-
-			//how many points is the minimum for winning
-			'win_min_points' => 0,
-
-			//how many points = expected goal diff of one
-			'one_goal_diff' => 100
-		);
-		$options = array_merge($defaults, $options);
-
-		//need players ranks
-		foreach ($data["Players"] as $player) {
-			$player_data[$player["player_id"]] = $this->Player->read(null, $player["player_id"]);
-
-			//ranks
-			if (!isset($ranks[$player["side"]])) {
-				$ranks[$player["side"]] = 0;
-			}
-			$ranks[$player["side"]] += $player_data[$player["player_id"]]["Player"]["rank"];
-
-			//sides
-			$side_players[$player["side"]][] = $player_data[$player["player_id"]]["Player"]["name"];
+		foreach($players as $player) {
+			$side_players[$player['side']][] = $player['Player']['name'];
 		}
 
-		$notes = implode(", ", $side_players[1]).': '.$data["Game"]["side_1_score"].'; ';
-		$notes .= implode(", ", $side_players[2]).': '.$data["Game"]["side_2_score"];
+		$notes = implode(", ", $side_players[1]).': '.$side1_score.'; ';
+		$notes .= implode(", ", $side_players[2]).': '.$side2_score;
 
-		foreach ($player_data as $player_id => $player) {
-			$insert = array (
+		foreach ($players as $player) {
+			$insert = array(
 				"players_id" => $player["Player"]["id"],
 				"games_id" => $this->Game->id,
 				"rank" => $player["Player"]["rank"],
@@ -167,53 +153,10 @@ class GamesController extends AppController {
 			//insert into rank tracking
 
 			$sql = "INSERT INTO rank_track(".implode(', ', array_keys($insert)).") VALUES (".implode(", ", array_values($insert)).")";
-			$result = $this->Game->query($sql);
+			$this->Game->query($sql);
 		}
 
-		//figure out expected and actual values
-
-		$expected_diff[1] = ceil( ($ranks[1] - $ranks[2]) / $options['one_goal_diff']);
-		$expected_diff[2] = ceil( ($ranks[2] - $ranks[1]) / $options['one_goal_diff']);
-
-		$actual_diff[1] = $data["Game"]["side_1_score"] - $data["Game"]["side_2_score"];
-		$actual_diff[2] = $data["Game"]["side_2_score"] - $data["Game"]["side_1_score"];
-
-		$final_diff[1] = $actual_diff[1] - $expected_diff[1];
-		$final_diff[2] = $actual_diff[2] - $expected_diff[2];
-
-		$points[1] = $final_diff[1] * $options['goal_diff_multiplier'] + $options['participation_points'];
-		$points[2] = $final_diff[2] * $options['goal_diff_multiplier'] + $options['participation_points'];
-
-		if ($data["Game"]["side_1_score"] > $data["Game"]["side_2_score"]) {
-			$points[1] += $options['win_points'];
-
-			if (is_int($options['win_min_points'])) {
-				$points[1] = max($points[1], $options['win_min_points']);
-			}
-
-			$points[2] -= $options['win_points'];
-		} elseif ($data["Game"]["side_1_score"] < $data["Game"]["side_2_score"]) {
-			$points[2] += $options['win_points'];
-
-			if (is_int($options['win_min_points'])) {
-				$points[2] = max($points[2], $options['win_min_points']);
-			}
-
-			$points[1] -= $options['win_points'];
-		} else {
-			//ties don't happen
-		}
-
-		//update player ranks
-		foreach ($data["Players"] as $player) {
-			$this->Player->changeRank($player["player_id"], $points[$player["side"]]);
-		}
-
-		//set message telling how many points were won/lost
-		$message = implode(", ", $side_players[1]).': '.$points[1].'; ';
-		$message .= implode(", ", $side_players[2]).': '.$points[2];
-
-		return $message;
+		return $notes;
 	}
 
 	function admin_index() {
