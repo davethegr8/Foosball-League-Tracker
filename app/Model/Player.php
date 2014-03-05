@@ -1,12 +1,12 @@
 <?php
 class Player extends AppModel {
-	function changeRank($player_id, $points) {
+	function changeRank($player_id, $points, $field = 'rank') {
 		$this->id = $player_id;
 		$this->data = $this->read();
 
-		$this->data["Player"]["rank"] += $points;
+		$this->data["Player"][$field] += $points;
 
-		return $this->save($this->data, array('rank'));
+		return $this->save();
 	}
 
 	function playerStats($accountID, $playerID) {
