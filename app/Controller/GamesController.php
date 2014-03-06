@@ -1,7 +1,7 @@
 <?php
 class GamesController extends AppController {
 	public $uses = array('Game', 'Player');
-	public $components = array('Elo', 'FoosRank');
+	public $components = array('Elo', 'FoosRank', 'Aggregate');
 
 	function beforeFilter() {
 		if(isset($this->params['admin']) && $this->params['admin']) {
@@ -113,11 +113,26 @@ class GamesController extends AppController {
 
 		$this->trackRank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
 
-		$ranking = $this->FoosRank->rank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
+		$game_players = $this->FoosRank->rank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
+		$game_players = $this->FoosRank->rank(
+			$game_players,
+			$data['Game']['side_1_score'],
+			$data['Game']['side_2_score'],
+			array(
+				'field' => 'foos_performance_rank',
+				'participation_points' => 0,
+				'goal_diff_multiplier' => 10,
+				'win_points' => 0,
+				'win_min_points' => null,
+			)
+		);
+		$game_players = $this->Elo->rank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
+
+		$game_players = $this->Aggregate->rank($game_players);
 
 		//update player ranks
-		foreach ($ranking as $player) {
-			$this->Player->changeRank($player["Player"]["id"], $player["Player"]["rank"], "rank");
+		foreach ($game_players as $player) {
+			$this->Player->changeRank($player);
 
 			$this->message .= $player['Player']['name'].': '.$player['diff'].', ';
 		}
@@ -142,6 +157,9 @@ class GamesController extends AppController {
 				"players_id" => $player["Player"]["id"],
 				"games_id" => $this->Game->id,
 				"rank" => $player["Player"]["rank"],
+				"foos_rank" => $player["Player"]["foos_rank"],
+				"foos_performance_rank" => $player["Player"]["foos_performance_rank"],
+				"elo_rank" => $player["Player"]["elo_rank"],
 				"notes" => $notes
 			);
 

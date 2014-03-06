@@ -25,7 +25,10 @@ class FoosRankComponent extends Component {
 			'win_min_points' => 0,
 
 			//how many points = expected goal diff of one
-			'one_goal_diff' => 100
+			'one_goal_diff' => 100,
+
+			//check a specific field for rank values
+			'field' => 'foos_rank'
 		);
 		$options = array_merge($defaults, $options);
 
@@ -35,7 +38,7 @@ class FoosRankComponent extends Component {
 		);
 
 		foreach($players as $player) {
-			$ranks[$player['side']] += $player['Player']['rank'];
+			$ranks[$player['side']] += $player['Player'][$options['field']];
 		}
 
 		$expected_diff[1] = ceil( ($ranks[1] - $ranks[2]) / $options['one_goal_diff']);
@@ -71,7 +74,7 @@ class FoosRankComponent extends Component {
 		}
 
 		foreach($players as $key => $player) {
-			$players[$key]['Player']['rank'] += $points[$player['side']];
+			$players[$key]['Player'][$options['field']] += $points[$player['side']];
 			$players[$key]['diff'] = $points[$player['side']];
 		}
 

@@ -1,10 +1,13 @@
 <?php
+
+
 class Player extends AppModel {
-	function changeRank($player_id, $new_value, $field = 'rank') {
-		$this->id = $player_id;
+
+	function changeRank($player) {
+		$this->id = $player['Player']['id'];
 		$this->data = $this->read();
 
-		$this->data["Player"][$field] = $new_value;
+		$this->data["Player"] = $player['Player'];
 
 		return $this->save();
 	}
