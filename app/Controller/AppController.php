@@ -33,7 +33,11 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	var $helpers = array('Form', 'Html', 'Js', 'Stats', 'Session');
 
-	function beforeRender() {}
+	function beforeRender() {
+		if (isset($this->params['admin']) && $this->params['admin']) {
+			$this->layout = 'admin';
+		}
+	}
 
 	function __validateLoginStatus() {
 		$controller = $this->params["controller"];
@@ -49,7 +53,24 @@ class AppController extends Controller {
 	}
 
 	function __validateAdminLogin() {
-		return false;
+		$controller = $this->params["controller"];
+		$public = array('admin_login', 'admin_logout');
+
+		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && $controller != 'users') {
+			if ($this->Session->check("User") == false) {
+				$this->Session->setFlash("You must login to view that page.");
+				$this->redirect('/admin/users/login');
+				$this->exit();
+			}
+		} elseif ($controller == 'users' && !in_array($this->action, $public)) {
+			if ($this->Session->check("User") == false) {
+				$this->Session->setFlash("You must login to view that page.");
+				$this->redirect('/admin/users/login');
+				$this->exit();
+			}
+		}
+
+		return true;
 	}
 }
 

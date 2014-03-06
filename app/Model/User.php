@@ -1,7 +1,12 @@
 <?php
 class User extends AppModel {
 	function validateLogin($data) {
-		$result = $this->find( array('username' => $data["username"], 'password' => md5($data["password"])));
+		$result = $this->find('first', array(
+			'conditions' => array(
+				'username' => $data["username"],
+				'password' => md5($data["password"])
+			)
+		));
 
 		if (empty($result) == false) {
 			return $result;
