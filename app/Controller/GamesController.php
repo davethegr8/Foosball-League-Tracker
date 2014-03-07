@@ -108,27 +108,9 @@ class GamesController extends AppController {
 			$this->Game->savePlayer($player);
 		}
 
-		$game['side1']['score'] = $data['Game']['side_1_score'];
-		$game['side2']['score'] = $data['Game']['side_2_score'];
-
 		$this->trackRank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
 
-		$game_players = $this->FoosRank->rank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
-		$game_players = $this->FoosRank->rank(
-			$game_players,
-			$data['Game']['side_1_score'],
-			$data['Game']['side_2_score'],
-			array(
-				'field' => 'foos_performance_rank',
-				'participation_points' => 0,
-				'goal_diff_multiplier' => 10,
-				'win_points' => 0,
-				'win_min_points' => null,
-			)
-		);
-		$game_players = $this->Elo->rank($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
-
-		$game_players = $this->Aggregate->rank($game_players);
+		$game_players = $this->rankGame($game_players, $data['Game']['side_1_score'], $data['Game']['side_2_score']);
 
 		//update player ranks
 		foreach ($game_players as $player) {
@@ -177,6 +159,29 @@ class GamesController extends AppController {
 		return $notes;
 	}
 
+	function rankGame($players, $side1_score, $side2_score) {
+		$players = $this->FoosRank->rank($players, $side1_score, $side2_score,array(
+				'participation_points' => 0,
+			));
+		$players = $this->FoosRank->rank(
+			$players,
+			$side1_score,
+			$side2_score,
+			array(
+				'field' => 'foos_performance_rank',
+				'participation_points' => 0,
+				'goal_diff_multiplier' => 10,
+				'win_points' => 0,
+				'win_min_points' => null,
+			)
+		);
+		$players = $this->Elo->rank($players, $side1_score, $side2_score);
+
+		$players = $this->Aggregate->rank($players);
+
+		return $players;
+	}
+
 	function admin_index() {
 		$data['count'] = $this->Game->find('count');
 
@@ -217,5 +222,102 @@ class GamesController extends AppController {
 		$data["range"] = $range;
 
 		$this->set($data);
+	}
+
+	function admin_rerank() {
+		header('Content-type: text/plain');
+
+		$reset = array(
+			'UPDATE players SET rank=1000, foos_rank=1000, foos_performance_rank=1000, elo_rank=1000;',
+			'UPDATE rank_track SET rank=NULL WHERE rank > 0;',
+			'UPDATE rank_track SET foos_rank=NULL WHERE foos_rank > 0;',
+			'UPDATE rank_track SET foos_performance_rank=NULL WHERE foos_performance_rank > 0;',
+			'UPDATE rank_track SET elo_rank=NULL WHERE elo_rank > 0;'
+		);
+
+		foreach ($reset as $sql) {
+			$this->Game->query($sql);
+		}
+
+		$sql = "SELECT DISTINCT(games_id)
+				FROM rank_track
+				WHERE foos_rank IS NULL AND games_id>0
+				ORDER BY games_id ASC";
+
+		$games = $this->Game->query($sql);
+
+		foreach($games as $game) {
+			$sql = "SELECT *
+					FROM rank_track
+					LEFT JOIN games Game ON games_id=Game.id
+					LEFT JOIN players Player ON players_id=Player.id
+					LEFT JOIN games_players ON games_players.game_id=games_id AND games_players.player_id=players_id
+					WHERE games_id={$game['rank_track']['games_id']}
+					";
+			$game_data = $this->Game->query($sql);
+
+			$players = array();
+			$side1_score = 0;
+			$side2_score = 0;
+
+			foreach($game_data as $row) {
+				$players[] = array(
+					'Player' => $row['Player'],
+					'side' => $row['games_players']['side'],
+					'rank_track_id' => $row['rank_track']['id']
+				);
+
+				$side1_score = $row['Game']['side_1_score'];
+				$side2_score = $row['Game']['side_2_score'];
+			}
+
+			foreach($players as $player) {
+				$rank = array_sum(
+					array(
+						$player['Player']['foos_rank'],
+						$player['Player']['foos_performance_rank'],
+						$player['Player']['elo_rank']
+					)
+				) / 3;
+
+				$sql = "UPDATE rank_track
+						SET
+							foos_rank={$player['Player']['foos_rank']},
+							foos_performance_rank={$player['Player']['foos_performance_rank']},
+							elo_rank={$player['Player']['elo_rank']},
+							rank={$rank}
+						WHERE id={$player['rank_track_id']}
+						";
+				$this->Game->query($sql);
+			}
+
+			$players = $this->rankGame($players, $side1_score, $side2_score);
+
+			foreach($players as $player) {
+				$rank = array_sum(
+					array(
+						$player['Player']['foos_rank'],
+						$player['Player']['foos_performance_rank'],
+						$player['Player']['elo_rank']
+					)
+				) / 3;
+
+				$sql = "UPDATE players
+						SET
+							foos_rank={$player['Player']['foos_rank']},
+							foos_performance_rank={$player['Player']['foos_performance_rank']},
+							elo_rank={$player['Player']['elo_rank']},
+							rank={$rank}
+						WHERE id={$player['Player']['id']}";
+				$this->Game->query($sql);
+			}
+
+			echo "done\n";
+			print_r($players);
+		}
+
+
+
+		die;
 	}
 }
