@@ -26,9 +26,9 @@ class AccountsController extends AppController {
 
 	function logout() {
 		$this->Session->destroy('account');
-        $this->Session->setFlash("You've successfully logged out.");
-        $this->redirect('login');
-    }
+		$this->Session->setFlash("You've successfully logged out.");
+		$this->redirect('login');
+	}
 
 	function signup() {
 		if (empty($this->data) == false) {
@@ -56,7 +56,9 @@ class AccountsController extends AppController {
 	}
 
 	function index() {
-		$this->view();
+		$account = $this->Session->read("Account");
+
+		$this->set($account);
 	}
 
 	function view() {
