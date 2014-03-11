@@ -228,16 +228,18 @@ class GamesController extends AppController {
 	function admin_rerank() {
 		header('Content-type: text/plain');
 
-		$reset = array(
-			'UPDATE players SET rank=1000, foos_rank=1000, foos_performance_rank=1000, elo_rank=1000;',
-			'UPDATE rank_track SET rank=NULL WHERE rank > 0;',
-			'UPDATE rank_track SET foos_rank=NULL WHERE foos_rank > 0;',
-			'UPDATE rank_track SET foos_performance_rank=NULL WHERE foos_performance_rank > 0;',
-			'UPDATE rank_track SET elo_rank=NULL WHERE elo_rank > 0;'
-		);
+		if(isset($_GET['reset'])) {
+			$reset = array(
+				'UPDATE players SET rank=1000, foos_rank=1000, foos_performance_rank=1000, elo_rank=1000;',
+				'UPDATE rank_track SET rank=NULL WHERE rank > 0;',
+				'UPDATE rank_track SET foos_rank=NULL WHERE foos_rank > 0;',
+				'UPDATE rank_track SET foos_performance_rank=NULL WHERE foos_performance_rank > 0;',
+				'UPDATE rank_track SET elo_rank=NULL WHERE elo_rank > 0;'
+			);
 
-		foreach ($reset as $sql) {
-			$this->Game->query($sql);
+			foreach ($reset as $sql) {
+				$this->Game->query($sql);
+			}
 		}
 
 		$sql = "SELECT DISTINCT(games_id)
