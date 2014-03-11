@@ -57,7 +57,7 @@
         </div>
 
         <div id="footer">
-			<p>&copy; 2007<?= (date("Y") > 2007 ? '-'.date("Y") : '') ?> zastica labs. All rights reserved. Current version: <em>2.0.4</em></p>
+			<p>&copy; 2007<?= (date("Y") > 2007 ? '-'.date("Y") : '') ?> zastica labs. All rights reserved. Current version: <em>2.1.0</em></p>
 			<div class="blogfoot bottomlinks">
 				<p>
 					<a href="http://www.zastica.com">zastica.com</a> |
