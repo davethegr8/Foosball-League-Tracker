@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.35-0ubuntu0.12.04.2)
 # Database: foos
-# Generation Time: 2014-02-19 15:34:59 +0000
+# Generation Time: 2014-03-11 20:19:15 +0000
 # ************************************************************
 
 
@@ -161,19 +161,22 @@ CREATE TABLE `players` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) DEFAULT NULL,
   `name` varchar(32) DEFAULT NULL,
-  `rank` int(11) DEFAULT '1000',
+  `rank` int(11) unsigned DEFAULT '1000',
+  `foos_rank` int(11) unsigned DEFAULT '1000',
+  `foos_performance_rank` int(11) unsigned DEFAULT '1000',
+  `elo_rank` int(11) unsigned DEFAULT '1000',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
 
-INSERT INTO `players` (`id`, `account_id`, `name`, `rank`)
+INSERT INTO `players` (`id`, `account_id`, `name`, `rank`, `foos_rank`, `foos_performance_rank`, `elo_rank`)
 VALUES
-  (1,51,'Player 1',1015),
-  (2,51,'Player 2',1017),
-  (3,51,'Player 3',1017),
-  (4,51,'Player 4',1017);
+  (1,51,'Player 1',1015,1015,997,991),
+  (2,51,'Player 2',1017,1017,999,1003),
+  (3,51,'Player 3',1017,1017,999,1003),
+  (4,51,'Player 4',1017,1017,999,1003);
 
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -217,40 +220,43 @@ CREATE TABLE `rank_track` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `players_id` int(11) DEFAULT NULL,
   `games_id` int(11) DEFAULT NULL,
-  `rank` int(11) NOT NULL,
+  `rank` int(11) unsigned DEFAULT '1000',
   `notes` varchar(255) NOT NULL DEFAULT '',
+  `foos_rank` int(11) unsigned DEFAULT '1000',
+  `foos_performance_rank` int(11) unsigned DEFAULT '1000',
+  `elo_rank` int(11) unsigned DEFAULT '1000',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rank_track` WRITE;
 /*!40000 ALTER TABLE `rank_track` DISABLE KEYS */;
 
-INSERT INTO `rank_track` (`id`, `players_id`, `games_id`, `rank`, `notes`)
+INSERT INTO `rank_track` (`id`, `players_id`, `games_id`, `rank`, `notes`, `foos_rank`, `foos_performance_rank`, `elo_rank`)
 VALUES
-  (1,1,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5'),
-  (2,2,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5'),
-  (3,3,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5'),
-  (4,4,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5'),
-  (5,1,2,1018,'Player 1, Player 3: 10; Player 2, Player 4: 5'),
-  (6,3,2,988,'Player 1, Player 3: 10; Player 2, Player 4: 5'),
-  (7,2,2,1018,'Player 1, Player 3: 10; Player 2, Player 4: 5'),
-  (8,4,2,988,'Player 1, Player 3: 10; Player 2, Player 4: 5'),
-  (9,1,3,1036,'Player 1, Player 4: 10; Player 2, Player 3: 5'),
-  (10,4,3,976,'Player 1, Player 4: 10; Player 2, Player 3: 5'),
-  (11,2,3,1006,'Player 1, Player 4: 10; Player 2, Player 3: 5'),
-  (12,3,3,1006,'Player 1, Player 4: 10; Player 2, Player 3: 5'),
-  (13,2,4,994,'Player 2, Player 3: 10; Player 1, Player 4: 5'),
-  (14,3,4,994,'Player 2, Player 3: 10; Player 1, Player 4: 5'),
-  (15,1,4,1054,'Player 2, Player 3: 10; Player 1, Player 4: 5'),
-  (16,4,4,994,'Player 2, Player 3: 10; Player 1, Player 4: 5'),
-  (17,2,5,1012,'Player 2, Player 4: 10; Player 1, Player 3: 5'),
-  (18,4,5,981,'Player 2, Player 4: 10; Player 1, Player 3: 5'),
-  (19,1,5,1041,'Player 2, Player 4: 10; Player 1, Player 3: 5'),
-  (20,3,5,1012,'Player 2, Player 4: 10; Player 1, Player 3: 5'),
-  (21,3,6,999,'Player 3, Player 4: 10; Player 1, Player 2: 5'),
-  (22,4,6,999,'Player 3, Player 4: 10; Player 1, Player 2: 5'),
-  (23,1,6,1028,'Player 3, Player 4: 10; Player 1, Player 2: 5'),
-  (24,2,6,1030,'Player 3, Player 4: 10; Player 1, Player 2: 5');
+  (1,1,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5',1000,1000,1000),
+  (2,2,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5',1000,1000,1000),
+  (3,3,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5',1000,1000,1000),
+  (4,4,1,1000,'Player 1, Player 2: 10; Player 3, Player 4: 5',1000,1000,1000),
+  (5,1,2,1016,'Player 1, Player 3: 10; Player 2, Player 4: 5',1018,1015,1016),
+  (6,3,2,986,'Player 1, Player 3: 10; Player 2, Player 4: 5',988,985,984),
+  (7,2,2,1016,'Player 1, Player 3: 10; Player 2, Player 4: 5',1018,1015,1016),
+  (8,4,2,986,'Player 1, Player 3: 10; Player 2, Player 4: 5',988,985,984),
+  (9,1,3,1033,'Player 1, Player 4: 10; Player 2, Player 3: 5',1036,1030,1032),
+  (10,4,3,971,'Player 1, Player 4: 10; Player 2, Player 3: 5',976,970,968),
+  (11,2,3,1002,'Player 1, Player 4: 10; Player 2, Player 3: 5',1006,1000,1000),
+  (12,3,3,1002,'Player 1, Player 4: 10; Player 2, Player 3: 5',1006,1000,1000),
+  (13,2,4,988,'Player 2, Player 3: 10; Player 1, Player 4: 5',994,985,984),
+  (14,3,4,988,'Player 2, Player 3: 10; Player 1, Player 4: 5',994,985,984),
+  (15,1,4,1049,'Player 2, Player 3: 10; Player 1, Player 4: 5',1054,1045,1048),
+  (16,4,4,988,'Player 2, Player 3: 10; Player 1, Player 4: 5',994,985,984),
+  (17,2,5,1005,'Player 2, Player 4: 10; Player 1, Player 3: 5',1012,1000,1003),
+  (18,4,5,972,'Player 2, Player 4: 10; Player 1, Player 3: 5',981,969,965),
+  (19,1,5,1033,'Player 2, Player 4: 10; Player 1, Player 3: 5',1041,1029,1029),
+  (20,3,5,1005,'Player 2, Player 4: 10; Player 1, Player 3: 5',1012,1000,1003),
+  (21,3,6,989,'Player 3, Player 4: 10; Player 1, Player 2: 5',999,984,984),
+  (22,4,6,989,'Player 3, Player 4: 10; Player 1, Player 2: 5',999,984,984),
+  (23,1,6,1017,'Player 3, Player 4: 10; Player 1, Player 2: 5',1028,1013,1010),
+  (24,2,6,1022,'Player 3, Player 4: 10; Player 1, Player 2: 5',1030,1015,1022);
 
 /*!40000 ALTER TABLE `rank_track` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -270,6 +276,15 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`)
+VALUES
+  (1,'admin','5f4dcc3b5aa765d61d8327deb882cf99','admin@example.com','2014-03-11 20:16:47');
+
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
