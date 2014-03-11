@@ -160,9 +160,10 @@ class GamesController extends AppController {
 	}
 
 	function rankGame($players, $side1_score, $side2_score) {
-		$players = $this->FoosRank->rank($players, $side1_score, $side2_score,array(
-				'participation_points' => 0,
-			));
+		$players = $this->FoosRank->rank($players, $side1_score, $side2_score, array(
+			// 'participation_points' => 0,
+		));
+
 		$players = $this->FoosRank->rank(
 			$players,
 			$side1_score,
@@ -170,9 +171,9 @@ class GamesController extends AppController {
 			array(
 				'field' => 'foos_performance_rank',
 				'participation_points' => 0,
-				'goal_diff_multiplier' => 10,
-				'win_points' => 0,
-				'win_min_points' => null,
+				// 'goal_diff_multiplier' => 10,
+				// 'win_points' => 0,
+				// 'win_min_points' => null,
 			)
 		);
 		$players = $this->Elo->rank($players, $side1_score, $side2_score);
@@ -294,20 +295,12 @@ class GamesController extends AppController {
 			$players = $this->rankGame($players, $side1_score, $side2_score);
 
 			foreach($players as $player) {
-				$rank = array_sum(
-					array(
-						$player['Player']['foos_rank'],
-						$player['Player']['foos_performance_rank'],
-						$player['Player']['elo_rank']
-					)
-				) / 3;
-
 				$sql = "UPDATE players
 						SET
 							foos_rank={$player['Player']['foos_rank']},
 							foos_performance_rank={$player['Player']['foos_performance_rank']},
 							elo_rank={$player['Player']['elo_rank']},
-							rank={$rank}
+							rank={$player['Player']['rank']}
 						WHERE id={$player['Player']['id']}";
 				$this->Game->query($sql);
 			}
