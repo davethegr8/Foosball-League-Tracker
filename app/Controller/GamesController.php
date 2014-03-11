@@ -275,20 +275,12 @@ class GamesController extends AppController {
 			}
 
 			foreach($players as $player) {
-				$rank = array_sum(
-					array(
-						$player['Player']['foos_rank'],
-						$player['Player']['foos_performance_rank'],
-						$player['Player']['elo_rank']
-					)
-				) / 3;
-
 				$sql = "UPDATE rank_track
 						SET
 							foos_rank={$player['Player']['foos_rank']},
 							foos_performance_rank={$player['Player']['foos_performance_rank']},
 							elo_rank={$player['Player']['elo_rank']},
-							rank={$rank}
+							rank={$player['Player']['rank']}
 						WHERE id={$player['rank_track_id']}
 						";
 				$this->Game->query($sql);
