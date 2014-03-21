@@ -34,7 +34,7 @@ class Account extends AppModel {
 		unset($data["confirm"]);
 
 		$data["password"] = md5($data["password"]);
-		$data["date_created"] = date("Y-m-d H:i:s");
+		$data["created"] = date("Y-m-d H:i:s");
 
 		$account = $this->save($data);
 
