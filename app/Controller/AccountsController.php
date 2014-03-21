@@ -2,6 +2,7 @@
 
 
 class AccountsController extends AppController {
+	public $uses = array('Account', 'Game');
 
 	function beforeFilter() {
 		$this->__validateLoginStatus();
@@ -138,40 +139,47 @@ class AccountsController extends AppController {
 		$data['count'] = $this->Account->find('count');
 		$data['accounts'] = $this->Account->find('all');
 
-		$sql = "SELECT CAST(created as date) as `date`, COUNT(*) AS num FROM accounts GROUP BY `date`";
-		$daily = $this->Account->query($sql);
-
-		$endpoints = array('min' => '', 'max' => '');
-		foreach ($daily as $day) {
-			$day = $day[0];
-
-			if ($day["date"] < $endpoints['min'] || $endpoints['min'] == '') {
-				$endpoints['min'] = $day["date"];
-			}
-
-			if ($day["date"] > $endpoints['max'] || $endpoints['max'] == '') {
-				$endpoints['max'] = $day["date"];
-			}
-
-			$temp[$day["date"]] = $day["num"];
+		foreach($data['accounts'] as $key => $account) {
+			$games = $this->Game->find('count', array(
+				'conditions' => array(
+					'account_id' => $account['Account']['id']
+				)
+			));
+			$data['accounts'][$key]['games'] = $games;
 		}
 
-		$daily = $temp;
+		$this->set($data);
+	}
 
-		$date = $endpoints['min'];
-		$end = $endpoints['max'];
+	function admin_league($id) {
+		$this->Account->id = $id;
 
-		while ($date <= $end) {
-			if (isset($daily[$date])) {
-				$range[(strtotime($date))] = $daily[$date];
-			} else {
-				$range[(strtotime($date))] = 0;
-			}
+		$data['account'] = $this->Account->read();
+		$data["players"] = array();
 
-			$date = date("Y-m-d", strtotime($date." +1 day"));
+		$data["players"] = $this->Account->getLeague();
+		$data['unranked'] = array();
+
+		$data['games'] = array('min' => null, 'max' => null);
+
+		$record = array();
+
+		foreach($data['players'] as $player) {
+			$record[] = array_sum($player['record']);
 		}
 
-		$data["range"] = $range;
+		$data['games']['min'] = min($record);
+		$data['games']['max'] = max($record);
+		$data['games']['avg'] = array_sum($record) / count($record);
+
+		foreach($data['players'] as $key => $player) {
+			$played = array_sum($player['record']);
+
+			if($played < $data['games']['avg'] / 10) {
+				$data['unranked'][] = $player;
+				unset($data['players'][$key]);
+			}
+		}
 
 		$this->set($data);
 	}
