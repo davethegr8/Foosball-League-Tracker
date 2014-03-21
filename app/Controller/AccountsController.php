@@ -125,7 +125,7 @@ class AccountsController extends AppController {
 		foreach($data['players'] as $key => $player) {
 			$played = array_sum($player['record']);
 
-			if($data['games']['avg'] > 20 && $played < $data['games']['avg'] / 10) {
+			if($played < $data['games']['avg'] / 10) {
 				$data['unranked'][] = $player;
 				unset($data['players'][$key]);
 			}
