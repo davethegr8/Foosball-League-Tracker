@@ -186,42 +186,6 @@ class GamesController extends AppController {
 	function admin_index() {
 		$data['count'] = $this->Game->find('count');
 
-		$sql = "SELECT CAST(created as date) as `date`, COUNT(*) AS num FROM games GROUP BY `date`";
-		$daily = $this->Game->query($sql);
-
-		$endpoints = array('min' => '', 'max' => '');
-
-		foreach ($daily as $day) {
-			$day = $day[0];
-
-			if ($day["date"] < $endpoints['min'] || $endpoints['min'] == '') {
-				$endpoints['min'] = $day["date"];
-			}
-
-			if ($day["date"] > $endpoints['max'] || $endpoints['max'] == '') {
-				$endpoints['max'] = $day["date"];
-			}
-
-			$temp[$day["date"]] = $day["num"];
-		}
-
-		$daily = $temp;
-
-		$date = $endpoints['min'];
-		$end = $endpoints['max'];
-
-		while ($date <= $end) {
-			if (isset($daily[$date])) {
-				$range[(strtotime($date))] = $daily[$date];
-			} else {
-				$range[(strtotime($date))] = 0;
-			}
-
-			$date = date("Y-m-d", strtotime($date." +1 day"));
-		}
-
-		$data["range"] = $range;
-
 		$this->set($data);
 	}
 

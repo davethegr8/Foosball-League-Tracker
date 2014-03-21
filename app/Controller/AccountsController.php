@@ -5,7 +5,11 @@ class AccountsController extends AppController {
 	public $uses = array('Account', 'Game');
 
 	function beforeFilter() {
-		$this->__validateLoginStatus();
+		if(isset($this->params['admin']) && $this->params['admin']) {
+			$this->__validateAdminLogin();
+		} else {
+			$this->__validateLoginStatus();
+		}
 	}
 
 	function login() {
