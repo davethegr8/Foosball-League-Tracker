@@ -108,6 +108,28 @@ class AccountsController extends AppController {
 		$data["players"] = array();
 
 		$data["players"] = $this->Account->getLeague();
+		$data['unranked'] = array();
+
+		$data['games'] = array('min' => null, 'max' => null);
+
+		$record = array();
+
+		foreach($data['players'] as $player) {
+			$record[] = array_sum($player['record']);
+		}
+
+		$data['games']['min'] = min($record);
+		$data['games']['max'] = max($record);
+		$data['games']['avg'] = array_sum($record) / count($record);
+
+		foreach($data['players'] as $key => $player) {
+			$played = array_sum($player['record']);
+
+			if($data['games']['avg'] > 20 && $played < $data['games']['avg'] / 10) {
+				$data['unranked'][] = $player;
+				unset($data['players'][$key]);
+			}
+		}
 
 		$this->set($data);
 	}

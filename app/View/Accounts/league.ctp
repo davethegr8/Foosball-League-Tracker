@@ -6,13 +6,32 @@
 	<tr>
 		<th>Rank</th><th>Win %</th><th>Name</th><th>W</th><th>L</th>
 	</tr>
-	
+
 <? foreach($players as $player): ?>
-	<? $games = $player["record"]["wins"] + $player["record"]["loss"]; ?>
+	<?
+	$played = $player["record"]["wins"] + $player["record"]["loss"];
+	?>
 	<tr>
 		<td><?= $player["players"]["rank"] ?></td>
-		<td><?= sprintf("%.3f", $games > 0 ? $player["record"]["wins"] / $games : 0 ) ?></td>
+		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
 		<td><a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a></td>
+		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
+		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>
+	</tr>
+<? endforeach; ?>
+
+	<tr>
+		<td colspan="5"><h3>Unranked Players</h3></td>
+	</tr>
+
+<? foreach($unranked as $player): ?>
+	<?
+	$played = $player["record"]["wins"] + $player["record"]["loss"];
+	?>
+	<tr>
+		<td></td>
+		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
+		<td><?= $player["players"]["name"] ?></td>
 		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
 		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>
 	</tr>
