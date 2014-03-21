@@ -21,7 +21,7 @@
 <? endforeach; ?>
 
 	<tr>
-		<td colspan="5"><th>Unranked Players</th></td>
+		<th colspan="5">Unranked Players</th>
 	</tr>
 
 <? foreach($unranked as $player): ?>
