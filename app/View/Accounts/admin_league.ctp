@@ -2,7 +2,14 @@
 
 <table border="1" cellspacing="0">
 	<tr>
-		<th>Rank</th><th>Win %</th><th>Name</th><th>W</th><th>L</th>
+		<th>Rank</th>
+		<th>Foos</th>
+		<th>Performance</th>
+		<th>Elo</th>
+		<th>Win %</th>
+		<th>Name</th>
+		<th>W</th>
+		<th>L</th>
 	</tr>
 
 <? foreach($players as $player): ?>
@@ -11,6 +18,9 @@
 	?>
 	<tr>
 		<td><?= $player["players"]["rank"] ?></td>
+		<td><?= $player["players"]["foos_rank"] ?></td>
+		<td><?= $player["players"]["foos_performance_rank"] ?></td>
+		<td><?= $player["players"]["elo_rank"] ?></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
 		<td><a href="<?= $this->base ?>/admin/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a></td>
 		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
@@ -19,7 +29,7 @@
 <? endforeach; ?>
 
 	<tr>
-		<th colspan="5">Unranked Players</th>
+		<th colspan="8">Unranked Players</th>
 	</tr>
 
 <? foreach($unranked as $player): ?>

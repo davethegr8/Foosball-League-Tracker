@@ -47,7 +47,7 @@ class Account extends AppModel {
 
 	function getLeague() {
 		$sql = "
-			SELECT name, players.id, wins, loss, rank
+			SELECT players.*, wins, loss
 			FROM players
 			LEFT JOIN (
 				SELECT players.id as player_id,
