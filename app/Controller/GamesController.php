@@ -72,7 +72,90 @@ class GamesController extends AppController {
 	}
 
 	function view($id) {
-		//print_R($this->Game->read(null, $id));
+		$this->Game->id = $id;
+
+		// validate game exists and we are allowed to view
+		$this->data = $this->Game->read();
+
+		$accountID = $this->Session->read('Account.id');
+
+		if(!$accountID || $accountID != $this->data['Game']['account_id']) {
+			$this->Session->setFlash('Error: the game {id: '.intval($id).'} does not exist.');
+			$this->redirect('/games/index');
+		}
+
+		$viewData = array();
+		$viewData['Game'] = $this->data['Game'];
+
+		$sql = "SELECT *
+				FROM games_players
+				LEFT JOIN players on games_players.player_id=players.id
+				LEFT JOIN rank_track
+					ON rank_track.games_id=games_players.game_id
+					AND rank_track.players_id=players.id
+				WHERE game_id='".intval($this->data['Game']['id'])."'";
+		$players = $this->Game->query($sql);
+
+		$viewData['Players'] = $players;
+
+		$this->set($viewData);
+	}
+
+	function delete($id) {
+		$this->Game->id = $id;
+
+		// validate game exists and we are allowed to view
+		$this->data = $this->Game->read();
+
+		$accountID = $this->Session->read('Account.id');
+
+		if(!$accountID || $accountID != $this->data['Game']['account_id']) {
+			$this->Session->setFlash('Error: the game {id: '.intval($id).'} does not exist.');
+			$this->redirect('/games/index');
+		}
+
+		$viewData = array();
+		$viewData['Game'] = $this->data['Game'];
+
+		$sql = "SELECT *
+				FROM games_players
+				LEFT JOIN players on games_players.player_id=players.id
+				LEFT JOIN rank_track
+					ON rank_track.games_id=games_players.game_id
+					AND rank_track.players_id=players.id
+				WHERE game_id='".intval($this->data['Game']['id'])."'";
+		$players = $this->Game->query($sql);
+
+		$viewData['Players'] = $players;
+
+		$this->set($viewData);
+	}
+
+	function remove($id) {
+		$this->Game->id = $id;
+
+		// validate game exists and we are allowed to view
+		$this->data = $this->Game->read();
+
+		$accountID = $this->Session->read('Account.id');
+
+		if(!$accountID || $accountID != $this->data['Game']['account_id']) {
+			$this->Session->setFlash('Error: the game {id: '.intval($id).'} does not exist.');
+			$this->redirect('/games/index');
+		}
+
+		$gameID = $this->data['Game']['id'];
+
+		$sql = "DELETE FROM rank_track WHERE games_id='".intval($gameID)."'";
+		$this->Game->query($sql);
+
+		$sql = "DELETE FROM games_players WHERE game_id='".intval($gameID)."'";
+		$this->Game->query($sql);
+
+		$this->Game->delete($gameID);
+
+		$this->Session->setFlash('Game removed.');
+		$this->redirect('/games/index');
 	}
 
 	function __saveGame($data) {

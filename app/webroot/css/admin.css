@@ -179,7 +179,7 @@ th {
 }
 
 td.win {
-	background: #222;
+	background: hsl(165, 100%, 15%);
 }
 
 .score.win {
@@ -338,7 +338,7 @@ td.win {
 }
 
 
-#sidebar { 
+#sidebar {
 	width: 250px;
 	float:left;
 	text-align:left;
@@ -400,7 +400,7 @@ td.win {
 .plot {
 	width: auto;
 	height: 250px;
-	
+
 	margin-bottom: 2em;
 }
 
@@ -425,7 +425,7 @@ td.win {
  	text-align:center;
  	font-size:11px;
 	background-color:#222;
-	
+
 	padding-bottom: 11px;
 }
 
