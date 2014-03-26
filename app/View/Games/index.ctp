@@ -12,8 +12,8 @@
 		<th colspan="2">Side 1</th><th class="vs">vs.</th><th colspan="2">Side 2</th>
 	</tr>
 
-	<? foreach($games as $game):
-
+	<?php
+	foreach($games as $game):
 		$s1players = array();
 		foreach($game["side_1_players"] as $id => $player) {
 			$s1players[] = '<a href="'.$this->base.'/players/view/'.$id.'">'.$player.'</a>';
