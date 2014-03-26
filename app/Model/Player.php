@@ -73,6 +73,51 @@ class Player extends AppModel {
 		return $games;
 	}
 
+	function combinedGames($accountID, $players = array()) {
+		$sum = $players;
+		foreach($sum as $key => $value) {
+			$sum[$key] = "IF(player_id={$value}, 1, 0)";
+		}
+		$sum = implode(" + ", $sum);
+
+		$where = $players;
+		foreach($where as $key => $value) {
+			$where[$key] = "player_id={$value}";
+		}
+		$where = implode(" OR ", $where);
+
+		$count = count($players);
+
+		$sql = "SELECT *
+				FROM games_players
+				JOIN (
+					SELECT game_id, SUM({$sum}) checksum
+					FROM games_players
+					LEFT JOIN games ON games.id = game_id
+					WHERE games.account_id={$accountID} AND ({$where})
+					GROUP BY game_id
+					HAVING checksum={$count}
+				) gameIDs ON games_players.game_id=gameIDs.game_id
+				LEFT JOIN players ON games_players.player_id=players.id
+				LEFT JOIN games ON games_players.game_id=games.id
+				ORDER BY games.id DESC";
+
+		$games = array();
+		$data = $this->query($sql);
+
+		foreach($data as $key => $result) {
+			$gameID = $result['games']['id'];
+
+			$games[$gameID]['games'] = $result['games'];
+
+			$result['players']['side'] = $result['games_players']['side'];
+
+			$games[$gameID]['players'][$result['players']['id']] = $result['players'];
+		}
+
+		return $games;
+	}
+
 	function playerRanks($accountID, $playerID) {
 		$ranks = array();
 
