@@ -37,6 +37,28 @@ class PlayersController extends AppController {
 		}
 	}
 
+	function vs($player1ID, $player2ID) {
+		$player1 = $this->Player->find('first',
+			array(
+				'conditions' => array(
+					'id' => $player1ID
+				)
+			)
+		);
+
+		$player2 = $this->Player->find('first',
+			array(
+				'conditions' => array(
+					'id' => $player2ID
+				)
+			)
+		);
+
+		$games = $this->Player->combinedGames($this->Session->read("Account.id"),
+			array($player1ID, $player2ID)
+		);
+	}
+
 	function admin_index() {
 		$data['count'] = $this->Player->find('count');
 		$data['players'] = $this->Player->find('all');
