@@ -2,8 +2,8 @@
 
 class StatsHelper extends AppHelper {
 
-	var $players;
-	var $games;
+	public $players;
+	public $games;
 
 	function __construct() {
 		$this->players = ClassRegistry::init('Players');
