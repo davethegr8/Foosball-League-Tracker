@@ -30,6 +30,17 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
+	Router::connect('/players/:player1/vs/:player2',
+		array(
+			'controller' => 'players', 'action' => 'vs'
+		),
+		array(
+			'player1' => '[0-9]+',
+			'player2' => '[0-9]+',
+			'pass' => array('player1', 'player2')
+		)
+	);
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
