@@ -106,13 +106,15 @@ class Player extends AppModel {
 		$data = $this->query($sql);
 
 		foreach($data as $key => $result) {
+
 			$gameID = $result['games']['id'];
 
-			$games[$gameID]['games'] = $result['games'];
+			if(empty($games[$gameID])) {
+				$games[$gameID] = $result['games'];
+			}
 
-			$result['players']['side'] = $result['games_players']['side'];
-
-			$games[$gameID]['players'][$result['players']['id']] = $result['players'];
+			$side = 'side_'.$result['games_players']['side'].'_players';
+			$games[$gameID][$side][$result['players']['id']] = $result['players']['name'];
 		}
 
 		return $games;

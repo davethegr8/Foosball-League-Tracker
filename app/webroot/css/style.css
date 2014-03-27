@@ -9,9 +9,9 @@ body{
 }
 
 a{
-	color:#9CF;
+	color: #9CF;
 	text-decoration:none;
-	border-bottom:1px dotted #9CF;
+	border-bottom: 1px dotted #9CF;
 }
 
 a:hover{
@@ -54,8 +54,16 @@ div.message p {
 	line-height: 125%;
 }
 
-.blue {
+.blue, .pvp a.blue {
 	color: #9CF;
+}
+
+.red, .pvp a.red {
+	color: #f66;
+}
+
+.pvp a {
+	color: #ccc;
 }
 
 h1{font-size:24px}

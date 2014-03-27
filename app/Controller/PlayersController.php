@@ -45,6 +45,9 @@ class PlayersController extends AppController {
 				)
 			)
 		);
+		$player1['win'] = 0;
+		$player1['lose'] = 0;
+		$player1['ranks'] = $this->Player->playerRanks($this->Session->read("Account.id"), $player1ID);
 
 		$player2 = $this->Player->find('first',
 			array(
@@ -53,10 +56,58 @@ class PlayersController extends AppController {
 				)
 			)
 		);
+		$player2['win'] = 0;
+		$player2['lose'] = 0;
+		$player2['ranks'] = $this->Player->playerRanks($this->Session->read("Account.id"), $player2ID);
 
 		$games = $this->Player->combinedGames($this->Session->read("Account.id"),
 			array($player1ID, $player2ID)
 		);
+
+		foreach($games as $id => $item) {
+			if(in_array($player1['Player']['name'], $item['side_1_players'])) {
+				if($item['side_1_score'] > $item['side_2_score']) {
+					$player1['win']++;
+				}
+				if($item['side_1_score'] < $item['side_2_score']) {
+					$player1['lose']++;
+				}
+			}
+
+			if(in_array($player1['Player']['name'], $item['side_2_players'])) {
+				if($item['side_1_score'] < $item['side_2_score']) {
+					$player1['win']++;
+				}
+				if($item['side_1_score'] > $item['side_2_score']) {
+					$player1['lose']++;
+				}
+			}
+
+			if(in_array($player2['Player']['name'], $item['side_1_players'])) {
+				if($item['side_1_score'] > $item['side_2_score']) {
+					$player2['win']++;
+				}
+				if($item['side_1_score'] < $item['side_2_score']) {
+					$player2['lose']++;
+				}
+			}
+
+			if(in_array($player2['Player']['name'], $item['side_2_players'])) {
+				if($item['side_1_score'] < $item['side_2_score']) {
+					$player2['win']++;
+				}
+				if($item['side_1_score'] > $item['side_2_score']) {
+					$player2['lose']++;
+				}
+			}
+		}
+
+		$data['player1'] = $player1;
+		$data['player2'] = $player2;
+
+		$data['games'] = $games;
+
+		$this->set($data);
 	}
 
 	function admin_index() {
