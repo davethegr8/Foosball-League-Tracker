@@ -50,10 +50,6 @@
 			<?= $s2players; ?>
 		</td>
 	</tr>
-<<<<<<< HEAD
-	<? endforeach; ?>
-=======
 	<?php endforeach; ?>
->>>>>>> 3f0daee9c5d40204deeac0a93026da50b1f818ad
 
 </table>
