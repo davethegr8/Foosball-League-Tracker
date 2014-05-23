@@ -1,7 +1,7 @@
 <?php
 class GamesController extends AppController {
 	public $uses = array('Game', 'Player');
-	public $components = array('Elo', 'FoosRank', 'Aggregate');
+	public $components = array('Elo', 'FoosRank', 'Aggregate', 'RequestHandler');
 
 	function beforeFilter() {
 		if(isset($this->params['admin']) && $this->params['admin']) {

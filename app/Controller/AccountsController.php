@@ -3,6 +3,7 @@
 
 class AccountsController extends AppController {
 	public $uses = array('Account', 'Game');
+	public $components = array('RequestHandler');
 
 	function beforeFilter() {
 		if(isset($this->params['admin']) && $this->params['admin']) {
