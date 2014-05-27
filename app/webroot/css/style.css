@@ -202,7 +202,7 @@ th {
 	text-align: center;
 }
 
-td.win {
+.win {
 	background: hsl(165, 100%, 15%);
 }
 
@@ -507,4 +507,64 @@ div.warning input {
 	text-align: center;
 	vertical-align: middle;
 	white-space: nowrap;
+}
+
+#mass-adder {
+	border: 2px solid #ccc;
+	padding: 1em;
+
+	box-sizing: border-box;
+}
+
+#mass-adder h3 {
+	margin-top: 0;
+}
+
+#mass-adder div.games {
+	overflow: hidden;
+}
+
+#mass-adder textarea {
+	box-sizing: border-box;
+
+	font-size: inherit;
+
+	width: 50%;
+	min-height: 200px;
+
+	float: left;
+}
+
+#mass-adder div.preview {
+	box-sizing: border-box;
+
+	width: 50%;
+	min-height: 200px;
+
+	float: right;
+
+	padding: .5em;
+}
+
+#mass-adder div.preview p {
+	margin: 0;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+	overflow: hidden;
+}
+
+#mass-adder div.preview p .side1 {
+	float: left;
+	padding: 0 .5em;
+}
+
+#mass-adder div.preview p .side2 {
+	float: right;
+	padding: 0 .5em;
+}
+
+#mass-adder input {
+	clear: both;
+
+	margin: 1em 0 0 0;
 }

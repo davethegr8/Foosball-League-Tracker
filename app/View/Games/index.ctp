@@ -1,7 +1,32 @@
 
 <h2 id="page_title">Games</h2>
 
-<p><a href="<?= $this->base ?>/games/add">Add a new game</a></p>
+<p>
+	<a href="<?= $this->base ?>/games/add"><i class="fa fa-plus"></i> Add a new game</a>
+	<a id="adder"><i class="fa fa-plus"></i><i class="fa fa-plus"></i> Mass Adder</a>
+</p>
+
+<div id="mass-adder">
+	<h3>Add a bunch of games</h3>
+
+	<form>
+		<p>
+			Format games like this: <br />
+			<code>Player 1, Player 2, score|Player 3, Player 4, score</code><br />
+			Separate games with newlines
+		</p>
+
+		<div class="games">
+			<textarea id="mass-games-input" name="mass-games"></textarea>
+
+			<div id="mass-games-preview" class="preview">
+
+			</div>
+		</div>
+
+		<input type="submit" value="Add Games" />
+	</form>
+</div>
 
 <table border="1" cellspacing="0">
 	<tr>
