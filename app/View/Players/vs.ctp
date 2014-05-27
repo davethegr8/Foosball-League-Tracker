@@ -1,38 +1,54 @@
-<?php
-$player = $this->get('player');
-$player = $player['Player'];
-
-$record = $this->get('Record');
-$games = $this->get('Games');
-$ranks = $this->get('Ranks');
-?>
 <h3 class="name">
-	<span class="blue bigger"><?= $player['name'] ?></span>
-	<span class="rank">(<?= $player["rank"] ?>)</span>
+	<span class="blue bigger"><?= $player1['Player']['name'] ?></span>
+	<span class="rank">(<?= $player1['Player']["rank"] ?>,
+		<?= $player1['win'] ?>W <?= $player1['lose'] ?>L)</span>
+
+	<i>-vs-</i>
+
+	<span class="red bigger"><?= $player2['Player']['name'] ?></span>
+	<span class="rank">(<?= $player2['Player']["rank"] ?>,
+		<?= $player2['win'] ?>W <?= $player2['lose'] ?>L))</span>
 </h3>
 
-<p>Wins: <span class="wins"><?= $record["wins"] ?></span> Losses: <span class="loss"><?= $record["loss"] ?></span></p>
-
 <canvas id="player_graph" height="200" width="690"></canvas>
+
 
 <script>
 $(function () {
 	<?php
-	$ranks[] = $player["rank"];
-	foreach($ranks as $i => $value) {
-		$temp[] = '['.$i.', '.$value.']';
+	$labels = array();
+
+	$player1Ranks = $player1['ranks'];
+	$player1Ranks[] = $player1['Player']['rank'];
+
+	$player2Ranks = $player2['ranks'];
+	$player2Ranks[] = $player2['Player']['rank'];
+
+	foreach($player1Ranks as $i => $value) {
+		$labels[$i] = $i;
+	}
+
+	foreach($player2Ranks as $i => $value) {
+		$labels[$i] = $i;
 	}
 	?>
 
 	var data = {
-		labels: [<?= implode(", ", array_keys($ranks)) ?>],
+		labels: [<?= implode(", ", $labels) ?>],
 		datasets: [
 			{
 				fillColor : "rgba(0,0,0,0)",
 				strokeColor : "#99CCFF",
 				pointColor : "#99CCFF",
 				pointStrokeColor : "#fff",
-				data: [<?= implode(", ", $ranks) ?>]
+				data: [<?= implode(", ", $player1Ranks) ?>]
+			},
+			{
+				fillColor : "rgba(0,0,0,0)",
+				strokeColor : "#FF6666",
+				pointColor : "#FF6666",
+				pointStrokeColor : "#fff",
+				data: [<?= implode(", ", $player2Ranks) ?>]
 			}
 		]
 	};
@@ -52,7 +68,7 @@ $(function () {
 });
 </script>
 
-<table border="1" cellspacing="0">
+<table border="1" cellspacing="0" class="pvp">
 	<tr>
 		<th colspan="2">Side 1</th><th class="vs">vs.</th><th colspan="2">Side 2</th>
 	</tr>
@@ -61,13 +77,29 @@ $(function () {
 	foreach($games as $game):
 		$s1players = array();
 		foreach($game["side_1_players"] as $id => $player) {
-			$s1players[] = '<a href="'.$this->base.'/players/view/'.$id.'">'.$player.'</a>';
+			$class = '';
+			if($id == $player1['Player']['id']) {
+				$class = 'blue';
+			}
+			elseif($id == $player2['Player']['id']) {
+				$class = 'red';
+			}
+
+			$s1players[] = '<a href="'.$this->base.'/players/view/'.$id.'" class="'.$class.'">'.$player.'</a>';
 		}
 		$s1players = implode(', ', $s1players);
 
 		$s2players = array();
 		foreach($game["side_2_players"] as $id => $player) {
-			$s2players[] = '<a href="'.$this->base.'/players/view/'.$id.'">'.$player.'</a>';
+			$class = '';
+			if($id == $player1['Player']['id']) {
+				$class = 'blue';
+			}
+			elseif($id == $player2['Player']['id']) {
+				$class = 'red';
+			}
+
+			$s2players[] = '<a href="'.$this->base.'/players/view/'.$id.'" class="'.$class.'">'.$player.'</a>';
 		}
 		$s2players = implode(', ', $s2players);
 	?>

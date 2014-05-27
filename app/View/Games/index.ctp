@@ -2,6 +2,7 @@
 <h2 id="page_title">Games</h2>
 
 <p>
+	<a href="<?= $this->base ?>/players/add"><i class="fa fa-plus"></i> Add a new player</a>
 	<a href="<?= $this->base ?>/games/add"><i class="fa fa-plus"></i> Add a new game</a>
 	<a id="adder"><i class="fa fa-plus"></i><i class="fa fa-plus"></i> Mass Adder</a>
 </p>
