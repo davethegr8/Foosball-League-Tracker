@@ -10,7 +10,24 @@ class GamesController extends AppController {
 			$this->__validateLoginStatus();
 		}
 	}
-print
+
+	function index() {
+		$games = array();
+		$temp = $this->Game->findAll($this->Session->read('Account.id'));
+
+		//have to process the game data since the query isn't perfect
+		foreach ($temp as $row) {
+			$gameID = $row["games"]["id"];
+
+			$games[$gameID]["side_1_score"] = $row["games"]["side_1_score"];
+			$games[$gameID]["side_2_score"] = $row["games"]["side_2_score"];
+
+			$sideNum = $row["games_players"]["side"];
+
+			$games[$gameID]["side_".$sideNum."_players"][$row["players"]["id"]] = $row["players"]["name"];
+		}
+
+		$data["games"] = $games;
 
 		$this->set($data);
 	}
@@ -215,7 +232,7 @@ print
 		}
 
 		$result = $this->Game->save($data['Game']);
-		
+
 		foreach ($data["Players"] as $player) {
 			$this->Game->savePlayer($player);
 		}
