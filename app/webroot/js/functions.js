@@ -21,16 +21,33 @@ $(function () {
 
 	(function () {
 		var fetchPlayers,
-			playerData;
+			playerData,
+			gamesAdding = [];
 
-		$('#mass-games-input').on('keyup', function () {
-			var data = $(this).val().split("\n");
+		$('#adder').on('click', function () {
+			fetchPlayers = $.ajax('/accounts/league.json').done(function (data) {
+				console.log('league fetched');
+				playerData = data;
+			});
 
-			if(playerData === undefined && fetchPlayers === undefined) {
-				fetchPlayers = $.ajax('/accounts/league.json').done(function (data) {
-					playerData = data;
-				});
+			$('#mass-adder').show();
+		})
+
+		$('#mass-adder input[value="Close"]').on('click', function () {
+			$('#mass-adder').hide();
+		});
+
+
+		$('#mass-adder').detach().insertAfter('#top');
+
+		var parseGames = function () {
+			var data = $('#mass-games-input').val().split("\n");
+
+			if(playerData === undefined) {
+				return;
 			}
+
+			gamesAdding = [];
 
 			data = data.map(function (element, index) {
 				if(!element.replace(/\s/, '')) {
@@ -162,23 +179,32 @@ $(function () {
 				if(side1.score > side2.score) {
 					context.side1Classes.push('win');
 				}
-				else  if(side2.score > side1.score) {
+				else if(side2.score > side1.score) {
 					context.side2Classes.push('win');
 				}
 
 				context.side1Classes = context.side1Classes.join(' ');
 				context.side2Classes = context.side2Classes.join(' ');
 
-
-
 				output = interpolate(output, context);
 
-				console.log(context);
+				gamesAdding.push({
+					"side1": side1,
+					"side2": side2
+				});
 
 				return output;
 			});
 
+			$('#mass-games-data').val(JSON.stringify(gamesAdding));
 			$('#mass-games-preview').html(data);
+		};
+
+		$('#mass-games-input').on('keyup', parseGames);
+
+		$('#mass-form').on('submit', function (event) {
+			parseGames();
+			$('#mass-games-data').val(JSON.stringify(gamesAdding));
 		});
 	})();
 

@@ -10,7 +10,7 @@
 <div id="mass-adder">
 	<h3>Add a bunch of games</h3>
 
-	<form>
+	<form id="mass-form" action="/games/mass" method="post">
 		<p>
 			Format games like this: <br />
 			<code>Player 1, Player 2, score|Player 3, Player 4, score</code><br />
@@ -18,14 +18,15 @@
 		</p>
 
 		<div class="games">
-			<textarea id="mass-games-input" name="mass-games"></textarea>
+			<textarea id="mass-games-input"></textarea>
 
 			<div id="mass-games-preview" class="preview">
 
 			</div>
 		</div>
 
-		<input type="submit" value="Add Games" />
+		<input type="hidden" name="gamedata" id="mass-games-data" />
+		<input type="submit" value="Add Games" /> <input type="button" value="Close" />
 	</form>
 </div>
 

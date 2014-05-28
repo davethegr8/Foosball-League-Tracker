@@ -71,6 +71,51 @@ class GamesController extends AppController {
 		}
 	}
 
+	function mass() {
+		// adds a whole bunch of games.
+		$games = json_decode($this->data['gamedata'], true);
+		$added = 0;
+
+		foreach($games as $game) {
+			$formatted = array();
+
+			$formatted['Game']['side_1_score'] = $game['side1']['score'];
+			$formatted['Game']['side_2_score'] = $game['side2']['score'];
+
+			$formatted['Game']['side[1'] = array();
+			foreach($game['side1']['players'] as $player) {
+				$formatted['Game']['side[1'][] = $player['id'];
+			}
+
+			$formatted['Game']['side[2'] = array();
+			foreach($game['side2']['players'] as $player) {
+				$formatted['Game']['side[2'][] = $player['id'];
+			}
+
+			$formatted['Game']['account_id'] = $this->Session->read('Account.id');
+
+			// if($this->Game->id) {
+			// 	echo '<pre>', print_R($this->Game, true), '</pre>';
+			// 	die;
+			// }
+
+			$result = $this->__saveGame($formatted);
+			if($result) {
+				$added++;
+			}
+		}
+
+		if ($added > 0) {
+			$this->Session->setFlash('Games Added: '.$added);
+			$this->redirect('/games/index');
+			exit();
+		} else {
+			$this->Session->setFlash('An error occurred. Please try again.');
+			$this->redirect('/games/index');
+			exit();
+		}
+	}
+
 	function view($id) {
 		$this->Game->id = $id;
 
@@ -160,6 +205,7 @@ class GamesController extends AppController {
 
 	function __saveGame($data) {
 		$game_players = array();
+		$this->Game->id = null;
 
 		//put into game
 		$sides = array();
@@ -186,6 +232,8 @@ class GamesController extends AppController {
 		}
 
 		$result = $this->Game->save($data['Game']);
+		echo '<pre>', print_R($result, true), '</pre>';
+		echo '<pre>', print_R($this->id, true), '</pre>';
 
 		foreach ($data["Players"] as $player) {
 			$this->Game->savePlayer($player);

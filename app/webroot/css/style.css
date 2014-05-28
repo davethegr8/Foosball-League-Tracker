@@ -522,6 +522,9 @@ div.warning input {
 	padding: 1em;
 
 	box-sizing: border-box;
+	text-align: left;
+
+	display: none;
 }
 
 #mass-adder h3 {
