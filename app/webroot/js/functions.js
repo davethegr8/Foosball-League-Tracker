@@ -40,14 +40,22 @@ $(function () {
 				var game = element.split('|'),
 					side1Raw = game[0].split(','),
 					side2Raw = game[1].split(','),
-					side1 = {},
-					side2 = {},
-					output = '<p><span class="side1 {side1Classes}">{side1}</span>vs<span class="side2 {side2Classes}">{side2}</span></p>',
+					side1 = {
+						score: 0,
+						players: []
+					},
+					side2 = {
+						score: 0,
+						players: []
+					},
+					output = '<p><span class="side1 {side1Classes}">{side1}: {side1Score}</span>vs<span class="side2 {side2Classes}">{side2}: {side2Score}</span></p>',
 					context = {
 						side1: "s1",
-						side1Classes: "",
+						side1Classes: [],
+						side1Score: 0,
 						side2: "s2",
-						side2Classes: ""
+						side2Classes: [],
+						side2Score: 0
 					},
 					interpolate = function (message, context) {
 						for(var key in context) {
@@ -60,21 +68,108 @@ $(function () {
 				side1Raw.forEach(function(element, index) {
 					if(element * 1 == element) {
 						side1.score = element * 1;
+						context.side1Score = side1.score;
+					}
+					else {
+						side1.players.push({ raw: element} );
 					}
 				});
 
 				side2Raw.forEach(function(element, index) {
 					if(element * 1 == element) {
 						side2.score = element * 1;
+						context.side2Score = side2.score;
+					}
+					else {
+						side2.players.push({ raw: element} );
 					}
 				});
 
+				side1.players.forEach(function(element, index) {
+					var raw = element.raw,
+						matches = [];
+
+					playerData.forEach(function (player) {
+						var query = raw.toLowerCase().split(''),
+							found = true,
+							index,
+							playerName = player.name.toLowerCase();
+
+
+						for(var i=0;i<query.length;i++) {
+							if((index = playerName.indexOf(query[i])) == -1) {
+								found = false;
+								break;
+							}
+
+							playerName = playerName.slice(0, index) + playerName.slice(index + 1, playerName.length);
+						}
+
+						if(found) {
+							matches.push(player);
+						}
+					});
+
+					if(matches.length == 1) {
+						side1.players[index] = matches[0];
+					}
+					else {
+						side1.players[index] = { name: "???" };
+					}
+				});
+
+				side2.players.forEach(function(element, index) {
+					var raw = element.raw,
+						matches = [];
+
+					playerData.forEach(function (player) {
+						var query = raw.toLowerCase().split(''),
+							found = true,
+							index,
+							playerName = player.name.toLowerCase();
+
+
+						for(var i=0;i<query.length;i++) {
+							if((index = playerName.indexOf(query[i])) == -1) {
+								found = false;
+								break;
+							}
+
+							playerName = playerName.slice(0, index) + playerName.slice(index + 1, playerName.length);
+						}
+
+						if(found) {
+							matches.push(player);
+						}
+					});
+
+					if(matches.length == 1) {
+						side2.players[index] = matches[0];
+					}
+					else {
+						side2.players[index] = { name: "???" };
+					}
+				});
+
+				context.side1 = side1.players.map(function (element) {
+					return element.name;
+				}).join(', ');
+
+				context.side2 = side2.players.map(function (element) {
+					return element.name;
+				}).join(', ');
+
 				if(side1.score > side2.score) {
-					context.side1Classes += ' win';
+					context.side1Classes.push('win');
 				}
 				else  if(side2.score > side1.score) {
-					context.side2Classes += ' win';
+					context.side2Classes.push('win');
 				}
+
+				context.side1Classes = context.side1Classes.join(' ');
+				context.side2Classes = context.side2Classes.join(' ');
+
+
 
 				output = interpolate(output, context);
 
