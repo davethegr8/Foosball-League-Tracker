@@ -19,21 +19,22 @@
 
 	<link rel="alternate" type="application/rss+xml" href="<?= $this->base ?>/posts/rss/" />
 
-	<?= $this->Html->script('jquery-1.10.2.min.js'); ?>
+	<?php
+	echo $this->Html->script('jquery-1.10.2.min.js');
+	echo $this->Html->script('Chart.min.js');
+	?>
 
-	<?= $this->Html->script('Chart.min.js'); ?>
 
-
-    <script type="text/javascript">
-        BASE = '<?php echo $this->base ?>';
-    </script>
+	<script type="text/javascript">
+		var BASE = '<?php echo $this->base ?>';
+	</script>
 </head>
 <body>
 
-    <div id="container">
+	<div id="container">
 
-        <div id="top">
-            <h1 id="header">Foosball Score Tracker</h1>
+		<div id="top">
+			<h1 id="header">Foosball Score Tracker</h1>
 
 			<div id="menubar">
 				<ul>
@@ -45,7 +46,7 @@
 					<li><a href="<?= $this->base ?>/pages/contact/">Contact</a></li>
 				</ul>
 			</div>
-        </div>
+		</div>
 
 		<div id="sidebar">
 			<?
@@ -83,13 +84,13 @@
 			</div>
 		</div>
 
-        <div id="content">
+		<div id="content">
 			<?php echo $this->Session->flash(); ?>
-            <?php echo $content_for_layout; ?>
-            <span class="cleaner">&nbsp;</span>
-        </div>
+			<?php echo $content_for_layout; ?>
+			<span class="cleaner">&nbsp;</span>
+		</div>
 
-        <div id="footer">
+		<div id="footer">
 			<p>&copy; 2007<?= '-'.date("Y") ?> zastica labs. All rights reserved. Current version: <em>2.1.0</em></p>
 			<div class="blogfoot bottomlinks">
 				<p>
@@ -97,9 +98,9 @@
 					<a href="<?= $this->base ?>/pages/contact/">Contact</a>
 				</p>
 			</div>
-	    </div>
+		</div>
 
-    </div>
-    <?= $this->Html->script('functions.js'); ?>
+	</div>
+	<?= $this->Html->script('functions.js'); ?>
 </body>
 </html>
