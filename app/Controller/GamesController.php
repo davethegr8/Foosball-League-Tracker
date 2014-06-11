@@ -232,8 +232,6 @@ class GamesController extends AppController {
 		}
 
 		$result = $this->Game->save($data['Game']);
-		echo '<pre>', print_R($result, true), '</pre>';
-		echo '<pre>', print_R($this->id, true), '</pre>';
 
 		foreach ($data["Players"] as $player) {
 			$this->Game->savePlayer($player);
