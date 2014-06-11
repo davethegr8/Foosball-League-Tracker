@@ -72,11 +72,6 @@
 				echo '</div>';
 			}
 			?>
-			<div class="sideitem">
-				<h3>Top Players</h3>
-				<p>These guys and gals are the highest ranked players in the system.</p>
-				<?= $this->Stats->topPlayers(); ?>
-			</div>
 
 			<div class="sideitem">
 				<h3>Stats</h3>
