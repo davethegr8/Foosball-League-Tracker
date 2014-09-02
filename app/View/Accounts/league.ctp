@@ -41,4 +41,25 @@
 	</tr>
 <? endforeach; ?>
 
+<?php if(count($retired)): ?>
+
+	<tr>
+		<th colspan="5">Retired Players</th>
+	</tr>
+
+	<? foreach($retired as $player): ?>
+	<?
+	$played = $player["record"]["wins"] + $player["record"]["loss"];
+	?>
+	<tr>
+		<td><?= $player["players"]["rank"] ?></td>
+		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
+		<td><a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a></td>
+		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
+		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>
+	</tr>
+<? endforeach; ?>
+
+<?php endif; ?>
+
 </table>
