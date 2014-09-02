@@ -36,7 +36,8 @@ class GamesController extends AppController {
 		$data["players"][""] = " - ";
 		$players = $this->Player->find('all', array(
 			'conditions' => array(
-				'account_id' => $this->Session->read("Account.id")
+				'account_id' => $this->Session->read("Account.id"),
+				'status' => 'active'
 			),
 			'order' => 'name ASC'
 		));
