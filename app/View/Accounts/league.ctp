@@ -8,14 +8,19 @@
 
 <table border="1" cellspacing="0">
 	<tr>
-		<th>Rank</th><th>Win %</th><th>Name</th><th>W</th><th>L</th>
+		<th></th><th>Rank</th><th>Win %</th><th>Name</th><th>W</th><th>L</th>
 	</tr>
+
+<?php
+$rank = 1;
+?>
 
 <? foreach($players as $player): ?>
 	<?
 	$played = $player["record"]["wins"] + $player["record"]["loss"];
 	?>
 	<tr>
+		<td><?php echo $rank++ ?></td>
 		<td><?= $player["players"]["rank"] ?></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
 		<td><a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a></td>
@@ -33,6 +38,7 @@
 	$played = $player["record"]["wins"] + $player["record"]["loss"];
 	?>
 	<tr>
+		<td></td>
 		<td></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
 		<td><?= $player["players"]["name"] ?></td>
@@ -52,6 +58,7 @@
 	$played = $player["record"]["wins"] + $player["record"]["loss"];
 	?>
 	<tr>
+		<td></td>
 		<td><?= $player["players"]["rank"] ?></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
 		<td><a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a></td>
