@@ -4,7 +4,9 @@ class AggregateComponent extends Component {
 	function rank($players) {
 
 		$rank_fields = array(
-			'foos_rank'
+			'foos_rank',
+			'foos_performance_rank',
+			'elo_rank'
 		);
 
 		foreach($players as $key => $player) {
