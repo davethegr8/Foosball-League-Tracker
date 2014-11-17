@@ -115,6 +115,7 @@ class AccountsController extends AppController {
 
 		$data["players"] = $this->Account->getLeague();
 		$data['unranked'] = array();
+		$data['retired'] = array();
 
 		$data['games'] = array('min' => null, 'max' => null);
 
@@ -131,7 +132,11 @@ class AccountsController extends AppController {
 		foreach($data['players'] as $key => $player) {
 			$played = array_sum($player['record']);
 
-			if($played < $data['games']['avg'] / 10) {
+			if($player['players']['status'] == 'retired') {
+				$data['retired'][] = $player;
+				unset($data['players'][$key]);
+			}
+			elseif($played < $data['games']['avg'] / 10) {
 				$data['unranked'][] = $player;
 				unset($data['players'][$key]);
 			}

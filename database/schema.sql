@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # http://code.google.com/p/sequel-pro/
 #
-# Host: 127.0.0.1 (MySQL 5.5.35-0ubuntu0.12.04.2)
+# Host: 127.0.0.1 (MySQL 5.5.37-0ubuntu0.12.04.1)
 # Database: foos
-# Generation Time: 2014-03-11 20:19:15 +0000
+# Generation Time: 2014-09-02 17:45:43 +0000
 # ************************************************************
 
 
@@ -165,18 +165,22 @@ CREATE TABLE `players` (
   `foos_rank` int(11) unsigned DEFAULT '1000',
   `foos_performance_rank` int(11) unsigned DEFAULT '1000',
   `elo_rank` int(11) unsigned DEFAULT '1000',
+  `status` enum('active','inactive','retired') DEFAULT 'active',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
 
-INSERT INTO `players` (`id`, `account_id`, `name`, `rank`, `foos_rank`, `foos_performance_rank`, `elo_rank`)
+INSERT INTO `players` (`id`, `account_id`, `name`, `rank`, `foos_rank`, `foos_performance_rank`, `elo_rank`, `status`)
 VALUES
-  (1,51,'Player 1',1015,1015,997,991),
-  (2,51,'Player 2',1017,1017,999,1003),
-  (3,51,'Player 3',1017,1017,999,1003),
-  (4,51,'Player 4',1017,1017,999,1003);
+  (1,51,'Player 1',1015,1015,997,991,'active'),
+  (2,51,'Player 2',1017,1017,999,1003,'active'),
+  (3,51,'Player 3',1017,1017,999,1003,'active'),
+  (4,51,'Player 4',1017,1017,999,1003,'active'),
+  (5,51,'Unranked',1000,1000,1000,1000,'active'),
+  (6,51,'Unranked',1000,1000,1000,1000,'active'),
+  (7,51,'Retired',1000,1000,1000,1000,'retired');
 
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;

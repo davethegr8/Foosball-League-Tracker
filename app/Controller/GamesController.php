@@ -36,7 +36,8 @@ class GamesController extends AppController {
 		$data["players"][""] = " - ";
 		$players = $this->Player->find('all', array(
 			'conditions' => array(
-				'account_id' => $this->Session->read("Account.id")
+				'account_id' => $this->Session->read("Account.id"),
+				'status' => 'active'
 			),
 			'order' => 'name ASC'
 		));
@@ -232,8 +233,6 @@ class GamesController extends AppController {
 		}
 
 		$result = $this->Game->save($data['Game']);
-		echo '<pre>', print_R($result, true), '</pre>';
-		echo '<pre>', print_R($this->id, true), '</pre>';
 
 		foreach ($data["Players"] as $player) {
 			$this->Game->savePlayer($player);

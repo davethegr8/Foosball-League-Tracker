@@ -72,11 +72,6 @@
 				echo '</div>';
 			}
 			?>
-			<div class="sideitem">
-				<h3>Top Players</h3>
-				<p>These guys and gals are the highest ranked players in the system.</p>
-				<?= $this->Stats->topPlayers(); ?>
-			</div>
 
 			<div class="sideitem">
 				<h3>Stats</h3>
@@ -91,7 +86,7 @@
 		</div>
 
 		<div id="footer">
-			<p>&copy; 2007<?= '-'.date("Y") ?> zastica labs. All rights reserved. Current version: <em>2.1.0</em></p>
+			<p>&copy; 2007<?= '-'.date("Y") ?> zastica labs. All rights reserved. Current version: <em>2.1.1</em></p>
 			<div class="blogfoot bottomlinks">
 				<p>
 					<a href="http://www.zastica.com">zastica.com</a> |
