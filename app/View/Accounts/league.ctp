@@ -8,7 +8,11 @@
 
 <table border="1" cellspacing="0">
 	<tr>
-		<th>Rank</th><th>Win %</th><th>Name</th><th>W</th><th>L</th>
+		<th>Rank</th>
+		<th>Win %</th>
+		<th>Name</th>
+		<th>W</th>
+		<th>L</th>
 	</tr>
 
 <? foreach($players as $player): ?>
@@ -18,7 +22,10 @@
 	<tr>
 		<td><?= $player["players"]["rank"] ?></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
-		<td><a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a></td>
+		<td>
+			<a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a>
+			<a href="<?= $this->base ?>/players/edit/<?= $player["players"]["id"] ?>" title="Edit Player"><i class="fa fa-pencil"></i></a>
+		</td>
 		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
 		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>
 	</tr>
@@ -35,7 +42,10 @@
 	<tr>
 		<td></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
-		<td><?= $player["players"]["name"] ?></td>
+		<td>
+			<a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a>
+			<a href="<?= $this->base ?>/players/edit/<?= $player["players"]["id"] ?>" title="Edit Player"><i class="fa fa-pencil"></i></a>
+		</td>
 		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
 		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>
 	</tr>

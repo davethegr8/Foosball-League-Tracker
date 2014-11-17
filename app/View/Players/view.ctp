@@ -13,6 +13,8 @@ $ranks = $this->get('Ranks');
 
 <p>Wins: <span class="wins"><?= $record["wins"] ?></span> Losses: <span class="loss"><?= $record["loss"] ?></span></p>
 
+<p><a href="<?= $this->base ?>/players/edit/<?= $player["id"] ?>" title="Edit Player"><i class="fa fa-pencil"></i> Edit Player</a></p>
+
 <canvas id="player_graph" height="200" width="690"></canvas>
 
 <script>

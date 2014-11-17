@@ -37,6 +37,25 @@ class PlayersController extends AppController {
 		}
 	}
 
+	function edit($id) {
+		$this->Player->id = $id;
+		$this->Player->data = $this->Player->read();
+
+		if (empty($this->data) == false) {
+			$result = $this->Player->save($this->data);
+
+			if (empty($result) == false) {
+				$this->Session->setFlash('Player "'.$this->data["Player"]["name"].'" updated.');
+				$this->redirect('/accounts/league');
+				$this->exit();
+			}
+		}
+
+		$viewData['player'] = $this->Player->data;
+
+		$this->set($viewData);
+	}
+
 	function vs($player1ID, $player2ID) {
 		$player1 = $this->Player->find('first',
 			array(
