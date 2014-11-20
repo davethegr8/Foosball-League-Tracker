@@ -18,7 +18,7 @@ sed -i '/AllowOverride None/c AllowOverride AuthConfig FileInfo Indexes Limit Op
 
 service apache2 restart
 
-mysql -uroot --execute="CREATE DATABASE foos;"
+mysql -uroot --execute="DROP DATABASE IF EXISTS foos; CREATE DATABASE foos;"
 mysql -uroot -D foos < /vagrant/database/schema.sql
 
 cp /vagrant/app/Config/database.php.default /vagrant/app/Config/database.php
