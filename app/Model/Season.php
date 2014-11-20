@@ -9,4 +9,11 @@ class Season extends AppModel {
 
 		return $this->query($sql);
 	}
+
+	function archive(array $conditions = array()) {
+		return $this->updateAll(array(
+			'Season.status' => '"archived"',
+			'Season.archived' => 'NOW()'
+		), $conditions);
+	}
 }

@@ -1,5 +1,10 @@
 <h2>Your League Seasons</h2>
 
+<p>
+	<a href="<?= $this->base ?>/seasons/add"><i class="fa fa-plus"></i> Start a new season</a>
+</p>
+
+
 <table border="1" cellspacing="0">
 	<tr>
 		<th></th>
