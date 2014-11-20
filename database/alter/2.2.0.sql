@@ -15,3 +15,13 @@ CREATE TABLE `seasons_games` (
   `game_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `seasons_ranks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) DEFAULT NULL,
+  `rank` int(11) DEFAULT '1000',
+  `foos_rank` int(11) DEFAULT '1000',
+  `foos_performance_rank` int(11) DEFAULT '1000',
+  `elo_rank` int(11) DEFAULT '1000',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
