@@ -1,5 +1,8 @@
 <?php
 class SeasonsController extends AppController {
+	public $uses = array('Game', 'Player', 'Season');
+	public $components = array('Elo', 'FoosRank', 'Aggregate');
+
 	function beforeFilter() {
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && $this->params['admin'] == 1) {
 			$this->__validateAdminLogin();
@@ -61,8 +64,27 @@ class SeasonsController extends AppController {
 	}
 
 	function addGame() {
+		$gameData = $this->params['Game'];
+
+		// get current season
+		$current = $this->Season->find('first', array(
+			array('Season.account_id' => $this->Session->read('Account.id')),
+			array('Season.status' => 'active')
+		));
+
+		$this->Season->id = $current['Season']['id'];
+
+		$sql = "INSERT INTO seasons_games (season_id, game_id) VALUES (
+			'".intval($this->Season->id)."',
+			'".intval($gameData['id'])."'
+		)";
+
+		$this->Season->save(array(
+			'games_played' => $current['games_played'] + 1
+		));
+
 		echo '<pre>';
-		print_R($this);
+		print_R($gameData);
 		echo '</pre>';
 	}
 
