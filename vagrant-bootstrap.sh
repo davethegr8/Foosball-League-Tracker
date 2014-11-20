@@ -23,7 +23,8 @@ mysql -uroot -D foos < /vagrant/database/schema.sql
 
 cp /vagrant/app/Config/database.php.default /vagrant/app/Config/database.php
 
-chmod -R 777 /vagrant/app/tmp
+# add www-data to vagrant group
+usermod -a -G vagrant www-data
 
 sed -i "/'host' => 'localhost'/c \\\t\t'host' => '127.0.0.1'," /vagrant/app/Config/database.php
 sed -i "/'login' => 'user'/c \\\t\t'login' => 'root'," /vagrant/app/Config/database.php

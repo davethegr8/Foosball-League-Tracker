@@ -72,15 +72,18 @@ class SeasonsController extends AppController {
 			array('Season.status' => 'active')
 		));
 
+		print_R($current);
+
 		$this->Season->id = $current['Season']['id'];
 
 		$sql = "INSERT INTO seasons_games (season_id, game_id) VALUES (
 			'".intval($this->Season->id)."',
 			'".intval($gameData['id'])."'
 		)";
+		$this->Season->query($sql);
 
-		$this->Season->save(array(
-			'games_played' => $current['games_played'] + 1
+		$result = $this->Season->save(array(
+			'games_played' => $current['Season']['games_played'] + 1
 		));
 
 		echo '<pre>';

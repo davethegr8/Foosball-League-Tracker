@@ -26,3 +26,4 @@ CREATE TABLE `seasons_ranks` (
   `elo_rank` int(11) DEFAULT '1000',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
