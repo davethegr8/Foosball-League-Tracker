@@ -43,7 +43,22 @@ class SeasonsController extends AppController {
 	}
 
 	function edit($id) {
+		$this->Season->id = $id;
+		$this->Season->data = $this->Season->read();
 
+		if (empty($this->data) == false) {
+			$result = $this->Season->save($this->data);
+
+			if (empty($result) == false) {
+				$this->Session->setFlash('Season "'.$this->data["Season"]["name"].'" updated.');
+				$this->redirect('/seasons');
+				$this->exit();
+			}
+		}
+
+		$viewData['season'] = $this->Season->data;
+
+		$this->set($viewData);
 	}
 
 }
