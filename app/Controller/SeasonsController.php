@@ -68,8 +68,10 @@ class SeasonsController extends AppController {
 
 		// get current season
 		$current = $this->Season->find('first', array(
-			array('Season.account_id' => $this->Session->read('Account.id')),
-			array('Season.status' => 'active')
+			'conditions' => array(
+				'Season.account_id' => $this->Session->read('Account.id'),
+				'Season.status' => 'active'
+			)
 		));
 
 		print_R($current);
