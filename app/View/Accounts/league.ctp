@@ -6,6 +6,8 @@
 	<a href="<?= $this->base ?>/games/add"><i class="fa fa-plus"></i> New Game</a>
 </p>
 
+<h3>All Time Records</h3>
+
 <table border="1" cellspacing="0">
 	<tr>
 		<th></th>
