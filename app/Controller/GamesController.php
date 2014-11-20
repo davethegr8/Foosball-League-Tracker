@@ -61,9 +61,7 @@ class GamesController extends AppController {
 
 				$action = $this->requestAction('/seasons/addgame', $result);
 
-				// need to add to seasons_games
 				// update rank tracking in seasons_ranks
-				// add to seasons.games_played
 
 				print_R($result); die;
 
