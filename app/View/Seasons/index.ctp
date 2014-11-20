@@ -20,7 +20,7 @@
 			<a href="<?= $this->base ?>/seasons/edit/<?= $season["seasons"]["id"] ?>" title="Edit Season"><i class="fa fa-pencil"></i></a>
 		</td>
 		<td><a href="<?= $this->base ?>/seasons/view/<?= $season["seasons"]["id"] ?>"><?php echo $season['seasons']['name'] ?></a></td>
-		<td></td>
+		<td><?php echo $season['seasons']['games_played'] ?></td>
 		<td><?php echo date_format(new DateTime($season['seasons']['created']), 'M j, Y') ?></td>
 		<td><?php echo $season['seasons']['archived'] !== null ? date_format(new DateTime($season['seasons']['archived']), 'M j, Y') : '' ?></td>
 	</tr>
