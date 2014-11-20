@@ -9,7 +9,11 @@ class SeasonsController extends AppController {
 	}
 
 	function index() {
+		$seasons = $this->Season->findAll($this->Session->read('Account.id'));
 
+		$data['seasons'] = $seasons;
+
+		$this->set($data);
 	}
 
 	function view($id) {
@@ -23,6 +27,5 @@ class SeasonsController extends AppController {
 	function edit($id) {
 
 	}
-
 
 }
