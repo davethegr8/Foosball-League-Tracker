@@ -1,6 +1,6 @@
 <?php
 class GamesController extends AppController {
-	public $uses = array('Game', 'Player');
+	public $uses = array('Game', 'Player', 'Season');
 	public $components = array('Elo', 'FoosRank', 'Aggregate', 'RequestHandler');
 
 	function beforeFilter() {
@@ -58,6 +58,15 @@ class GamesController extends AppController {
 			$result = $this->__saveGame($data);
 
 			if (empty($result) == false) {
+
+				$action = $this->requestAction('/seasons/addgame');
+
+				// need to add to seasons_games
+				// update rank tracking in seasons_ranks
+				// add to seasons.games_played
+
+				print_R($result); die;
+
 				$this->Session->setFlash('Game Added. '.$this->message);
 				$this->redirect('add');
 				exit();
@@ -94,11 +103,6 @@ class GamesController extends AppController {
 			}
 
 			$formatted['Game']['account_id'] = $this->Session->read('Account.id');
-
-			// if($this->Game->id) {
-			// 	echo '<pre>', print_R($this->Game, true), '</pre>';
-			// 	die;
-			// }
 
 			$result = $this->__saveGame($formatted);
 			if($result) {

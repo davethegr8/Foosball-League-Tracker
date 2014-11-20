@@ -27,7 +27,6 @@ class SeasonsController extends AppController {
 				array('Season.status' => 'active')
 			));
 
-
 			$data = $this->data['Season'];
 			$data['status'] = 'active';
 			$data['account_id'] = $this->Session->read('Account.id');
@@ -59,6 +58,12 @@ class SeasonsController extends AppController {
 		$viewData['season'] = $this->Season->data;
 
 		$this->set($viewData);
+	}
+
+	function addGame() {
+		echo '<pre>';
+		print_R($this);
+		echo '</pre>';
 	}
 
 }

@@ -16,4 +16,10 @@ class Season extends AppModel {
 			'Season.archived' => 'NOW()'
 		), $conditions);
 	}
+
+	function addGame($gameData) {
+		echo '<pre>';
+		print_R($gameData);
+		echo '</pre>';
+	}
 }

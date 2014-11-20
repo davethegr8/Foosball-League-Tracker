@@ -6,8 +6,9 @@ CREATE TABLE `seasons` (
   `archived` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
   `status` enum('active','archived') DEFAULT NULL,
+  `games_played` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `seasons_games` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
