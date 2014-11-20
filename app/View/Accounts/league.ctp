@@ -31,6 +31,9 @@ $rank = 1;
 		<td>
 			<a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a>
 			<a href="<?= $this->base ?>/players/edit/<?= $player["players"]["id"] ?>" title="Edit Player"><i class="fa fa-pencil"></i></a>
+			<? if($player["record"]["wins"] + $player["record"]["loss"] == 0): ?>
+			<a href="<?= $this->base ?>/players/delete/<?= $player["players"]["id"] ?>" title="Delete Player"><i class="fa fa-times"></i></a>
+			<? endif; ?>
 		</td>
 		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
 		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>
@@ -52,6 +55,9 @@ $rank = 1;
 		<td>
 			<a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a>
 			<a href="<?= $this->base ?>/players/edit/<?= $player["players"]["id"] ?>" title="Edit Player"><i class="fa fa-pencil"></i></a>
+			<? if($player["record"]["wins"] + $player["record"]["loss"] == 0): ?>
+			<a href="<?= $this->base ?>/players/delete/<?= $player["players"]["id"] ?>" title="Delete Player"><i class="fa fa-times"></i></a>
+			<? endif; ?>
 		</td>
 		<td><?= ($player["record"]["wins"] != 0 ? $player["record"]["wins"] : 0) ?></td>
 		<td><?= ($player["record"]["loss"] != 0 ? $player["record"]["loss"] : 0) ?></td>

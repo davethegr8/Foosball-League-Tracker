@@ -56,6 +56,35 @@ class PlayersController extends AppController {
 		$this->set($viewData);
 	}
 
+	function delete($id) {
+		$this->Player->id = $id;
+		$this->Player->data = $this->Player->read();
+
+		$played = $this->Player->played();
+
+		if($played != 0) {
+			$this->Session->setFlash('Sorry, deleting players with games played is not possible. It mucks up rankings.');
+			$this->redirect('/accounts/league');
+			$this->exit();
+		}
+
+		$viewData['player'] = $this->Player->data;
+
+		if (empty($this->data) == false) {
+
+			$this->Player->set('account_id', $this->Player->data['Player']['account_id'] * -1);
+			$result = $this->Player->save();
+
+			if (empty($result) == false) {
+				$this->Session->setFlash('Player "'.$result['Player']['name'].'" removed.');
+				$this->redirect('/accounts/league');
+				$this->exit();
+			}
+		}
+
+		$this->set($viewData);
+	}
+
 	function vs($player1ID, $player2ID) {
 		$player1 = $this->Player->find('first',
 			array(

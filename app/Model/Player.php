@@ -12,6 +12,16 @@ class Player extends AppModel {
 		return $this->save();
 	}
 
+	function played($playerID = null) {
+		if($playerID === null) {
+			$playerID = $this->id;
+		}
+
+		$sql = "SELECT DISTINCT game_id FROM games_players WHERE player_id='".intval($playerID)."'";
+		$result = $this->query($sql);
+		return count($result);
+	}
+
 	function playerStats($accountID, $playerID) {
 		$sql = "
 			SELECT name, players.id, wins, loss, rank
