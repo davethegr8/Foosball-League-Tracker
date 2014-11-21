@@ -1,9 +1,12 @@
 <h2>Your League Seasons</h2>
 
+<p>Seasons are sections of your league's results. When a season is active, game
+results and trankings are tracked in independently in the season data as well as
+in the normal league table.</p>
+
 <p>
 	<a href="<?= $this->base ?>/seasons/add"><i class="fa fa-plus"></i> Start a new season</a>
 </p>
-
 
 <table border="1" cellspacing="0">
 	<tr>

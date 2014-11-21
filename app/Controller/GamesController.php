@@ -247,17 +247,21 @@ class GamesController extends AppController {
 
 		$this->message = trim($this->message, ", ");
 
-		// Track season updates
-		$this->requestAction('/seasons/addgame', $result);
+		$currentSeason = $this->Season->getCurrent($this->Session->read('Account.id'));
 
-		// update rank tracking in seasons_ranks
-		$this->requestAction('/seasons/trackgame', array(
-			'pass' => array(
-				$game_players,
-				$result['Game']['side_1_score'],
-				$result['Game']['side_2_score'],
-			)
-		));
+		if($currentSeason) {
+			// Track season updates
+			$this->requestAction('/seasons/addgame', $result);
+
+			// update rank tracking in seasons_ranks
+			$this->requestAction('/seasons/trackgame', array(
+				'pass' => array(
+					$game_players,
+					$result['Game']['side_1_score'],
+					$result['Game']['side_2_score'],
+				)
+			));
+		}
 
 		return $result;
 	}

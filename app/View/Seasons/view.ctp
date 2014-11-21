@@ -8,15 +8,17 @@ Ended: <?php echo $season['Season']['archived'] !== null ? date_format(new DateT
 
 <h3>Players</h3>
 
-<table border="1" cellspacing="0">
-	<tr>
-		<th></th>
-		<th>Rank</th>
-		<th>Win %</th>
-		<th>Name</th>
-		<th>W</th>
-		<th>L</th>
-	</tr>
+<table border="1" cellspacing="0" class="sort">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Rank</th>
+			<th>Win %</th>
+			<th>Name</th>
+			<th>W</th>
+			<th>L</th>
+		</tr>
+	</thead>
 
 <?php
 $rank = 1;

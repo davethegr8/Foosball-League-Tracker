@@ -15,15 +15,17 @@ Started: <?php echo date_format(new DateTime($season['Season']['created']), 'M j
 Ended: <?php echo $season['Season']['archived'] !== null ? date_format(new DateTime($season['Season']['archived']), 'M j, Y') : '' ?>
 </p>
 
-<table border="1" cellspacing="0">
-	<tr>
-		<th>Pos</th>
-		<th>Rank</th>
-		<th>Win %</th>
-		<th>Name</th>
-		<th>W</th>
-		<th>L</th>
-	</tr>
+<table border="1" cellspacing="0" class="sort">
+	<thead>
+		<tr>
+			<th>Pos</th>
+			<th>Rank</th>
+			<th>Win %</th>
+			<th>Name</th>
+			<th>W</th>
+			<th>L</th>
+		</tr>
+	</thead>
 
 <?php
 $rank = 1;
@@ -51,21 +53,23 @@ $rank = 1;
 
 <h3>All Time Records</h3>
 
-<table border="1" cellspacing="0">
-	<tr>
-		<th>Pos</th>
-		<th>Rank</th>
-		<th>Win %</th>
-		<th>Name</th>
-		<th>W</th>
-		<th>L</th>
-	</tr>
+<table border="1" cellspacing="0" class="sort">
+	<thead>
+		<tr>
+			<th>Pos</th>
+			<th>Rank</th>
+			<th>Win %</th>
+			<th>Name</th>
+			<th>W</th>
+			<th>L</th>
+		</tr>
+	</thead>
 
+	<tbody>
 <?php
 $rank = 1;
-?>
 
-<? foreach($players as $player): ?>
+foreach($players as $player): ?>
 	<?
 	$played = $player["record"]["wins"] + $player["record"]["loss"];
 	?>
@@ -130,5 +134,5 @@ $rank = 1;
 <? endforeach; ?>
 
 <?php endif; ?>
-
+	</tbody>
 </table>
