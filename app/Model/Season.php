@@ -56,7 +56,7 @@ class Season extends AppModel {
 		$find = "SELECT *
 				FROM seasons_ranks
 				WHERE season_id='".intval($seasonID)."' AND player_id='".intval($playerID)."'";
-		$result = $this->query($find);
+		$result = $this->query($find, array('cache' => false));
 
 		if(empty($result)) {
 			// if they don't have one, insert initial data
