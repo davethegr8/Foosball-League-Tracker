@@ -1,6 +1,6 @@
 /* CSS Document */
 
-body{
+body {
 	background:url(../img/bg.jpg) repeat-x top center #373737;
 	margin:0px;
 	padding:0px;
@@ -175,6 +175,10 @@ form input.submit {
 
 table {
 	border-collapse: collapse;
+}
+
+table.sort {
+	border-color: #777;
 }
 
 td, th {

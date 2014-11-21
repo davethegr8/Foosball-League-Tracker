@@ -1,4 +1,6 @@
 $(function () {
+	$('table.sort').tablesorter();
+
 	$('.score-minus').on('click', function () {
 		var $input = $(this).closest('td').find('input'),
 			value = $input.val() * 1;
