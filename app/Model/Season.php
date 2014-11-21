@@ -85,6 +85,11 @@ class Season extends AppModel {
 	}
 
 	function overview($accountID) {
+		if(!$this->id) {
+			$current = $this->getCurrent($accountID);
+			$this->id = $current['Season']['id'];
+		}
+
 		$sql = "
 			SELECT seasons_ranks.*, players.name, players.id
 			FROM seasons_ranks
@@ -117,8 +122,8 @@ class Season extends AppModel {
 				$initial['season_id'] = $game['seasons_games']['season_id'];
 				$initial['season_games_id'] = $game['seasons_games']['id'];
 				$initial['players'] = array(
-					'side_1' => array(),
-					'side_2' => array()
+					'side_1_players' => array(),
+					'side_2_players' => array()
 				);
 
 				$games[$game['games']['id']] = $initial;
@@ -126,16 +131,15 @@ class Season extends AppModel {
 
 			$ref = $games[$game['games']['id']]['players'];
 
-
 			$playerID = $game['games_players']['player_id'];
 
-			$ref['side_'.$game['games_players']['side']][] = $rawPlayers[$playerID]['players'];
+			$ref['side_'.$game['games_players']['side'].'_players'][] = $rawPlayers[$playerID]['players'];
 			$games[$game['games']['id']]['players'] = $ref;
 		}
 
 		foreach($games as $game) {
-			$winner = $game['side_1_score'] > $game['side_2_score'] ? 'side_1' : 'side_2';
-			$loser = $game['side_1_score'] < $game['side_2_score'] ? 'side_1' : 'side_2';
+			$winner = 'side_'.($game['side_1_score'] > $game['side_2_score'] ? '1' : '2').'_players';
+			$loser = 'side_'.($game['side_1_score'] < $game['side_2_score'] ? '1' : '2').'_players';
 
 			foreach($game['players'][$winner] as $player) {
 				$rawPlayers[$player['id']]['record']['wins'] += 1;
@@ -146,10 +150,10 @@ class Season extends AppModel {
 			}
 		}
 
-		debug($rawPlayers);
-
-		die;
-		return $this->query($sql);
+		return array(
+			'players' => $rawPlayers,
+			'games' => $games
+		);
 	}
 
 }

@@ -2,7 +2,7 @@
 
 
 class AccountsController extends AppController {
-	public $uses = array('Account', 'Game');
+	public $uses = array('Account', 'Game', 'Season');
 	public $components = array('RequestHandler');
 
 	function beforeFilter() {
@@ -118,6 +118,13 @@ class AccountsController extends AppController {
 		$data['retired'] = array();
 
 		$data['games'] = array('min' => null, 'max' => null);
+
+		$season = $this->Season->getCurrent($this->Account->id);
+		if($season) {
+			$overview = $this->Season->overview($this->Account->id);
+			$data['season']['Season'] = $season['Season'];
+			$data['season']['players'] = $overview['players'];
+		}
 
 		$record = array();
 

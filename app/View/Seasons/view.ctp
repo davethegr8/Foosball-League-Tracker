@@ -28,7 +28,7 @@ $rank = 1;
 	?>
 	<tr>
 		<td><?php echo $rank++ ?></td>
-		<td><?= $player["players"]["rank"] ?></td>
+		<td><?= $player["seasons_ranks"]["rank"] ?></td>
 		<td><?= sprintf("%.3f", $played > 0 ? $player["record"]["wins"] / $played : 0 ) ?></td>
 		<td>
 			<a href="<?= $this->base ?>/players/view/<?= $player["players"]["id"] ?>"><?= $player["players"]["name"] ?></a>
@@ -39,9 +39,7 @@ $rank = 1;
 <? endforeach; ?>
 </table>
 
-
 <h3>Games (<?php echo $season['Season']['games_played'] ?>)</h3>
-
 
 <table border="1" cellspacing="0">
 	<tr>
@@ -51,14 +49,14 @@ $rank = 1;
 	<?
 	foreach($games as $game):
 		$s1players = array();
-		foreach($game["side_1_players"] as $id => $player) {
-			$s1players[] = '<a href="'.$this->base.'/players/view/'.$id.'">'.$player.'</a>';
+		foreach($game['players']["side_1_players"] as $id => $player) {
+			$s1players[] = '<a href="'.$this->base.'/players/view/'.$player['id'].'">'.$player['name'].'</a>';
 		}
 		$s1players = implode(', ', $s1players);
 
 		$s2players = array();
-		foreach($game["side_2_players"] as $id => $player) {
-			$s2players[] = '<a href="'.$this->base.'/players/view/'.$id.'">'.$player.'</a>';
+		foreach($game['players']["side_2_players"] as $id => $player) {
+			$s2players[] = '<a href="'.$this->base.'/players/view/'.$player['id'].'">'.$player['name'].'</a>';
 		}
 		$s2players = implode(', ', $s2players);
 	?>

@@ -24,7 +24,7 @@ class SeasonsController extends AppController {
 		$data['season'] = $this->Season->read();
 
 		$overview = $this->Season->overview($this->Session->read('Account.id'));
-		debug($overview);
+		$data = array_merge($data, $overview);
 
 		$this->set($data);
 	}
