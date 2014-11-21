@@ -83,4 +83,73 @@ class Season extends AppModel {
 		$sql = "UPDATE seasons_ranks SET {$data} WHERE {$where}";
 		$db->query($sql, $player['seasons_ranks']);
 	}
+
+	function overview($accountID) {
+		$sql = "
+			SELECT seasons_ranks.*, players.name, players.id
+			FROM seasons_ranks
+			LEFT JOIN players ON players.id=player_id
+			WHERE season_id={$this->id}
+			ORDER BY rank DESC, name ASC
+		";
+		$rawPlayers = $this->query($sql);
+
+		$temp = array();
+		foreach($rawPlayers as $player) {
+			$player['record'] = array('wins' => 0, 'loss' => 0);
+			$temp[$player['seasons_ranks']['player_id']] = $player;
+		}
+		$rawPlayers = $temp;
+
+		$sql = "
+			SELECT *
+			FROM seasons_games
+			LEFT JOIN games ON games.id=seasons_games.game_id
+			JOIN games_players ON games.id=games_players.game_id
+			WHERE season_id={$this->id}
+		";
+		$rawGames = $this->query($sql);
+
+		$games = array();
+		foreach($rawGames as $game) {
+			if(!isset($games[$game['games']['id']])) {
+				$initial = $game['games'];
+				$initial['season_id'] = $game['seasons_games']['season_id'];
+				$initial['season_games_id'] = $game['seasons_games']['id'];
+				$initial['players'] = array(
+					'side_1' => array(),
+					'side_2' => array()
+				);
+
+				$games[$game['games']['id']] = $initial;
+			}
+
+			$ref = $games[$game['games']['id']]['players'];
+
+
+			$playerID = $game['games_players']['player_id'];
+
+			$ref['side_'.$game['games_players']['side']][] = $rawPlayers[$playerID]['players'];
+			$games[$game['games']['id']]['players'] = $ref;
+		}
+
+		foreach($games as $game) {
+			$winner = $game['side_1_score'] > $game['side_2_score'] ? 'side_1' : 'side_2';
+			$loser = $game['side_1_score'] < $game['side_2_score'] ? 'side_1' : 'side_2';
+
+			foreach($game['players'][$winner] as $player) {
+				$rawPlayers[$player['id']]['record']['wins'] += 1;
+			}
+
+			foreach($game['players'][$loser] as $player) {
+				$rawPlayers[$player['id']]['record']['loss'] += 1;
+			}
+		}
+
+		debug($rawPlayers);
+
+		die;
+		return $this->query($sql);
+	}
+
 }

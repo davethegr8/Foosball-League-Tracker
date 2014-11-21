@@ -20,7 +20,13 @@ class SeasonsController extends AppController {
 	}
 
 	function view($id) {
+		$this->Season->id = $id;
+		$data['season'] = $this->Season->read();
 
+		$overview = $this->Season->overview($this->Session->read('Account.id'));
+		debug($overview);
+
+		$this->set($data);
 	}
 
 	function add() {

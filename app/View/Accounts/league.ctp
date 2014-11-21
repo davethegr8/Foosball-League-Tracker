@@ -6,6 +6,22 @@
 	<a href="<?= $this->base ?>/games/add"><i class="fa fa-plus"></i> New Game</a>
 </p>
 
+<h3>Current Season</h3>
+
+<table border="1" cellspacing="0">
+	<tr>
+		<th></th>
+		<th>Rank</th>
+		<th>Win %</th>
+		<th>Name</th>
+		<th>W</th>
+		<th>L</th>
+	</tr>
+
+
+
+</table>
+
 <h3>All Time Records</h3>
 
 <table border="1" cellspacing="0">
@@ -43,7 +59,7 @@ $rank = 1;
 <? endforeach; ?>
 
 	<tr>
-		<th colspan="5">Unranked Players</th>
+		<th colspan="6">Unranked Players</th>
 	</tr>
 
 <? foreach($unranked as $player): ?>
@@ -69,7 +85,7 @@ $rank = 1;
 <?php if(count($retired)): ?>
 
 	<tr>
-		<th colspan="5">Retired Players</th>
+		<th colspan="6">Retired Players</th>
 	</tr>
 
 	<? foreach($retired as $player): ?>
