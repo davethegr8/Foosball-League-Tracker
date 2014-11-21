@@ -55,7 +55,7 @@
 				echo '	<li><span>'.$account["email"].'</span></li>';
 				echo '	<li><a href="'.$this->base.'/accounts/view">Your Account</a></li>';
 				echo '	<li><a href="'.$this->base.'/accounts/league">Your League</a></li>';
-				echo '	<li><a href="'.$this->base.'/seasons">Your Seasons</a></li>';
+				echo '	<li><a href="'.$this->base.'/seasons">Seasons</a></li>';
 				echo '	<li><a href="'.$this->base.'/games">Games</a></li>';
 				echo '	<li><a href="'.$this->base.'/accounts/logout">Logout</a></li>';
 				echo '</ul>';
