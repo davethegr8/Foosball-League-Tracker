@@ -80,8 +80,6 @@ class SeasonsController extends AppController {
 		$current = $this->Season->getCurrent($this->Session->read('Account.id'));
 		$this->Season->id = $current['Season']['id'];
 
-		debug($game_players);
-
 		$season_players = array();
 
 		$rank_fields = array(
@@ -112,8 +110,6 @@ class SeasonsController extends AppController {
 		foreach($season_players as $player) {
 			$this->Season->updateRanking($player);
 		}
-
-		die;
 	}
 
 }

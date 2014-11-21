@@ -247,8 +247,6 @@ class GamesController extends AppController {
 
 		$this->message = trim($this->message, ", ");
 
-		debug($result);
-
 		// Track season updates
 		$this->requestAction('/seasons/addgame', $result);
 
@@ -260,8 +258,6 @@ class GamesController extends AppController {
 				$result['Game']['side_2_score'],
 			)
 		));
-
-		debug($result); die;
 
 		return $result;
 	}
