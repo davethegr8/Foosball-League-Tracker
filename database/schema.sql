@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.40-0ubuntu0.12.04.1)
 # Database: foos
-# Generation Time: 2014-11-20 05:46:16 +0000
+# Generation Time: 2014-11-21 04:47:02 +0000
 # ************************************************************
 
 
@@ -70,7 +70,11 @@ VALUES
 	(3,51,10,5,'2014-02-19 15:33:08'),
 	(4,51,10,5,'2014-02-19 15:33:29'),
 	(5,51,10,5,'2014-02-19 15:33:47'),
-	(6,51,10,5,'2014-02-19 15:33:59');
+	(6,51,10,5,'2014-02-19 15:33:59'),
+	(7,51,10,5,'2014-11-21 04:46:00'),
+	(8,51,10,5,'2014-11-21 04:46:11'),
+	(9,51,10,5,'2014-11-21 04:46:20'),
+	(10,51,10,5,'2014-11-21 04:46:31');
 
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -118,7 +122,15 @@ VALUES
 	(21,3,6,1),
 	(22,4,6,1),
 	(23,1,6,2),
-	(24,2,6,2);
+	(24,2,6,2),
+	(25,1,7,1),
+	(26,2,7,2),
+	(27,1,8,1),
+	(28,3,8,2),
+	(29,2,9,1),
+	(30,4,9,2),
+	(31,2,10,1),
+	(32,4,10,2);
 
 /*!40000 ALTER TABLE `games_players` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -174,10 +186,10 @@ LOCK TABLES `players` WRITE;
 
 INSERT INTO `players` (`id`, `account_id`, `name`, `rank`, `foos_rank`, `foos_performance_rank`, `elo_rank`, `status`)
 VALUES
-	(1,51,'Player 1',1015,1015,997,991,'active'),
-	(2,51,'Player 2',1017,1017,999,1003,'active'),
-	(3,51,'Player 3',1017,1017,999,1003,'active'),
-	(4,51,'Player 4',1017,1017,999,1003,'active'),
+	(1,51,'Player 1',1033,1050,1026,1024,'active'),
+	(2,51,'Player 2',1023,1039,1012,1018,'active'),
+	(3,51,'Player 3',992,1005,984,987,'active'),
+	(4,51,'Player 4',977,992,968,971,'active'),
 	(5,51,'Unranked',1000,1000,1000,1000,'active'),
 	(6,51,'Unranked',1000,1000,1000,1000,'active'),
 	(7,51,'Retired',1000,1000,1000,1000,'retired');
@@ -260,7 +272,15 @@ VALUES
 	(21,3,6,989,'Player 3, Player 4: 10; Player 1, Player 2: 5',999,984,984),
 	(22,4,6,989,'Player 3, Player 4: 10; Player 1, Player 2: 5',999,984,984),
 	(23,1,6,1017,'Player 3, Player 4: 10; Player 1, Player 2: 5',1028,1013,1010),
-	(24,2,6,1022,'Player 3, Player 4: 10; Player 1, Player 2: 5',1030,1015,1022);
+	(24,2,6,1022,'Player 3, Player 4: 10; Player 1, Player 2: 5',1030,1015,1022),
+	(25,1,7,1015,'Player 1: 10; Player 2: 5',1015,997,991),
+	(26,2,7,1017,'Player 1: 10; Player 2: 5',1017,999,1003),
+	(27,1,8,1018,'Player 1: 10; Player 3: 5',1033,1012,1008),
+	(28,3,8,1017,'Player 1: 10; Player 3: 5',1017,999,1003),
+	(29,2,9,991,'Player 2: 10; Player 4: 5',1004,983,986),
+	(30,4,9,1017,'Player 2: 10; Player 4: 5',1017,999,1003),
+	(31,2,10,1008,'Player 2: 10; Player 4: 5',1022,998,1003),
+	(32,4,10,991,'Player 2: 10; Player 4: 5',1004,983,986);
 
 /*!40000 ALTER TABLE `rank_track` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -279,15 +299,16 @@ CREATE TABLE `seasons` (
   `archived` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
   `status` enum('active','archived') DEFAULT NULL,
+  `games_played` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `seasons` WRITE;
 /*!40000 ALTER TABLE `seasons` DISABLE KEYS */;
 
-INSERT INTO `seasons` (`id`, `account_id`, `created`, `updated`, `archived`, `name`, `status`)
+INSERT INTO `seasons` (`id`, `account_id`, `created`, `updated`, `archived`, `name`, `status`, `games_played`)
 VALUES
-	(1,51,'2014-11-20 05:00:07','2014-11-20 05:00:07',NULL,'Season 1','active');
+	(1,51,'2014-11-20 05:00:07','2014-11-20 05:00:07',NULL,'Season 1','active',4);
 
 /*!40000 ALTER TABLE `seasons` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -305,6 +326,48 @@ CREATE TABLE `seasons_games` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `seasons_games` WRITE;
+/*!40000 ALTER TABLE `seasons_games` DISABLE KEYS */;
+
+INSERT INTO `seasons_games` (`id`, `season_id`, `game_id`)
+VALUES
+	(1,1,7),
+	(2,1,8),
+	(3,1,9),
+	(4,1,10);
+
+/*!40000 ALTER TABLE `seasons_games` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table seasons_ranks
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `seasons_ranks`;
+
+CREATE TABLE `seasons_ranks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `season_id` int(11) DEFAULT NULL,
+  `player_id` int(11) DEFAULT NULL,
+  `rank` int(11) DEFAULT '1000',
+  `foos_rank` int(11) DEFAULT '1000',
+  `foos_performance_rank` int(11) DEFAULT '1000',
+  `elo_rank` int(11) DEFAULT '1000',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `seasons_ranks` WRITE;
+/*!40000 ALTER TABLE `seasons_ranks` DISABLE KEYS */;
+
+INSERT INTO `seasons_ranks` (`id`, `season_id`, `player_id`, `rank`, `foos_rank`, `foos_performance_rank`, `elo_rank`)
+VALUES
+	(1,1,1,1032,1035,1029,1031),
+	(2,1,2,1018,1023,1014,1016),
+	(3,1,3,986,988,985,985),
+	(4,1,4,971,975,969,968);
+
+/*!40000 ALTER TABLE `seasons_ranks` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table users
