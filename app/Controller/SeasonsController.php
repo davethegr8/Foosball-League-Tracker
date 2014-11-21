@@ -67,30 +67,53 @@ class SeasonsController extends AppController {
 		$gameData = $this->params['Game'];
 
 		// get current season
-		$current = $this->Season->find('first', array(
-			'conditions' => array(
-				'Season.account_id' => $this->Session->read('Account.id'),
-				'Season.status' => 'active'
-			)
-		));
-
-		print_R($current);
+		$current = $this->Season->getCurrent($this->Session->read('Account.id'));
 
 		$this->Season->id = $current['Season']['id'];
 
-		$sql = "INSERT INTO seasons_games (season_id, game_id) VALUES (
-			'".intval($this->Season->id)."',
-			'".intval($gameData['id'])."'
-		)";
-		$this->Season->query($sql);
+		$result = $this->Season->addGame($gameData);
+	}
 
-		$result = $this->Season->save(array(
-			'games_played' => $current['Season']['games_played'] + 1
+	function trackGame($game_players, $side1Score, $side2Score) {
+		$gameData = $this->params['Game'];
+
+		$current = $this->Season->getCurrent($this->Session->read('Account.id'));
+		$this->Season->id = $current['Season']['id'];
+
+		debug($game_players);
+
+		$season_players = array();
+
+		$rank_fields = array(
+			'rank', 'foos_rank', 'foos_performance_rank', 'elo_rank'
+		);
+
+		foreach($game_players as $id => $player) {
+			// Find their data in seasons_ranks
+			$season_players[$id] = $this->Season->getPlayer($this->Season->id, $player['Player']['id']);
+
+			foreach($rank_fields as $ranking) {
+				$game_players[$id]['Player'][$ranking] = $season_players[$id]['seasons_ranks'][$ranking];
+			}
+		}
+
+		// calculate the 4 ranks
+		$game_players = $this->requestAction('/games/rankGame', array(
+			'pass' => array($game_players, $side1Score, $side2Score)
 		));
 
-		echo '<pre>';
-		print_R($gameData);
-		echo '</pre>';
+		foreach($game_players as $id => $player) {
+			foreach($rank_fields as $ranking) {
+				$season_players[$id]['seasons_ranks'][$ranking] = $game_players[$id]['Player'][$ranking];
+			}
+		}
+
+		// update seasons_ranks table
+		foreach($season_players as $player) {
+			$this->Season->updateRanking($player);
+		}
+
+		die;
 	}
 
 }

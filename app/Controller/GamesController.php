@@ -59,12 +59,6 @@ class GamesController extends AppController {
 
 			if (empty($result) == false) {
 
-				$action = $this->requestAction('/seasons/addgame', $result);
-
-				// update rank tracking in seasons_ranks
-
-				print_R($result); die;
-
 				$this->Session->setFlash('Game Added. '.$this->message);
 				$this->redirect('add');
 				exit();
@@ -252,6 +246,22 @@ class GamesController extends AppController {
 		}
 
 		$this->message = trim($this->message, ", ");
+
+		debug($result);
+
+		// Track season updates
+		$this->requestAction('/seasons/addgame', $result);
+
+		// update rank tracking in seasons_ranks
+		$this->requestAction('/seasons/trackgame', array(
+			'pass' => array(
+				$game_players,
+				$result['Game']['side_1_score'],
+				$result['Game']['side_2_score'],
+			)
+		));
+
+		debug($result); die;
 
 		return $result;
 	}

@@ -19,6 +19,7 @@ CREATE TABLE `seasons_games` (
 
 CREATE TABLE `seasons_ranks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `season_id` int(11) DEFAULT NULL,
   `player_id` int(11) DEFAULT NULL,
   `rank` int(11) DEFAULT '1000',
   `foos_rank` int(11) DEFAULT '1000',
