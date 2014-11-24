@@ -99,5 +99,11 @@
 
 	</div>
 	<?= $this->Html->script('functions.js'); ?>
+
+	<?php
+	if(file_exists('js/tracking.js')) {
+		echo file_get_contents('js/tracking.js');
+	}
+	?>
 </body>
 </html>
