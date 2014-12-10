@@ -54,9 +54,9 @@ class Season extends AppModel {
 
 	function getPlayer($seasonID, $playerID) {
 		$find = "SELECT *
-				FROM seasons_ranks
-				WHERE season_id='".intval($seasonID)."' AND player_id='".intval($playerID)."'";
-		$result = $this->query($find);
+			FROM seasons_ranks
+			WHERE season_id='".intval($seasonID)."' AND player_id='".intval($playerID)."'";
+		$result = $this->query($find, false);
 
 		if(empty($result)) {
 			// if they don't have one, insert initial data
@@ -64,7 +64,10 @@ class Season extends AppModel {
 					VALUES ('".intval($seasonID)."', '".intval($playerID)."')";
 			$this->query($sql);
 
-			$result = $this->query($find, array('cache' => false));
+			$sql = "SELECT *
+				FROM seasons_ranks
+				WHERE player_id='".intval($playerID)."' AND season_id='".intval($seasonID)."'";
+			$result = $this->query($find, false);
 		}
 
 		return $result[0];
