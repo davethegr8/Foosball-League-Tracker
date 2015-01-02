@@ -544,7 +544,7 @@ div.warning input {
 
 	font-size: inherit;
 
-	width: 50%;
+	width: 35%;
 	min-height: 200px;
 
 	float: left;
@@ -553,7 +553,7 @@ div.warning input {
 #mass-adder div.preview {
 	box-sizing: border-box;
 
-	width: 50%;
+	width: 65%;
 	min-height: 200px;
 
 	float: right;
@@ -566,6 +566,11 @@ div.warning input {
 	border-bottom: 1px solid #ccc;
 	text-align: center;
 	overflow: hidden;
+}
+
+#mass-adder div.preview p .index {
+	float: left;
+	padding: 0 .5em 0 0;
 }
 
 #mass-adder div.preview p .side1 {

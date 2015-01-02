@@ -67,8 +67,9 @@ $(function () {
 						score: 0,
 						players: []
 					},
-					output = '<p><span class="side1 {side1Classes}">{side1}: {side1Score}</span>vs<span class="side2 {side2Classes}">{side2}: {side2Score}</span></p>',
+					output = '<p><span class="index">{index}.</span><span class="side1 {side1Classes}">{side1}: {side1Score}</span>vs<span class="side2 {side2Classes}">{side2}: {side2Score}</span></p>',
 					context = {
+						index: 0,
 						side1: "s1",
 						side1Classes: [],
 						side1Score: 0,
@@ -133,7 +134,7 @@ $(function () {
 						side1.players[index] = matches[0];
 					}
 					else {
-						side1.players[index] = { name: "???" };
+						side1.players[index] = { name: "??? (" + raw + ")" };
 					}
 				});
 
@@ -166,7 +167,7 @@ $(function () {
 						side2.players[index] = matches[0];
 					}
 					else {
-						side2.players[index] = { name: "???" };
+						side2.players[index] = { name: "??? (" + raw + ")" };
 					}
 				});
 
@@ -187,6 +188,8 @@ $(function () {
 
 				context.side1Classes = context.side1Classes.join(' ');
 				context.side2Classes = context.side2Classes.join(' ');
+
+				context.index = index + 1;
 
 				output = interpolate(output, context);
 
